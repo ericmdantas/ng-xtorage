@@ -1,0 +1,34 @@
+{
+  "name": "ng-xtorage",
+  "main": "ng-xtorage.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ericmdantas/angular-xtorage",
+  "authors": ["ericmdantas <ericdantas0@hotmail.com>"],
+  "description": "Web Storage taken to a new level.",
+  "keywords": [
+    "storage",
+	"web-storage",
+	"angular-storage",
+    "sessionStorage",
+    "localStorage"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+	"coverage",
+	"package.json",
+	"grunfile.js",
+	"*.conf.js",
+	"*_test.js"
+  ],
+  "dependencies": {
+    "angular": ">=1.0.8"
+  },
+  "devDependencies":
+  {
+	"angular-mocks": ">=1.0.8"
+  }
+  
+}
