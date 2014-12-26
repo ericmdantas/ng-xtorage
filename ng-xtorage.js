@@ -2,10 +2,16 @@
 
 angular
     .module('emd.ng-xtorage', [])
-    .constant('XTORAGE_DEFAULT_TYPE', 'localStorage')
-    .service('$xtorage', ['$window', 'XTORAGE_DEFAULT_TYPE', function($window, XTORAGE_DEFAULT_TYPE)
+    .provider('$xtorageDefaultStorage', function()
     {
-        var DEFAULT_STORAGE = XTORAGE_DEFAULT_TYPE;
+        this.$get = function()
+        {
+            return {storage: 'localStorage'}
+        };
+    })
+    .service('$xtorage', ['$window', '$xtorageDefaultStorage', function($window, $xtorageDefaultStorage)
+    {
+        var DEFAULT_STORAGE = $xtorageDefaultStorage.storage;
 
         var _tryParseToObject = function(str, isNumber)
         {
@@ -35,11 +41,6 @@ angular
 
             return true;
         }
-
-        var _isStringFilled = function(str)
-        {
-            return (angular.isString(str) && str.length);
-        };
 
         var _isArrayFilled = function(arr)
         {
@@ -86,13 +87,17 @@ angular
             {
                 for (var i = 0; i < key.length; i++)
                 {
-                    _info.push(_tryParseToObject($window[_storage].getItem(key[i])));
+                    var _arrayFromStorage = $window[_storage].getItem(key[i]);
+
+                    if (_arrayFromStorage) // only push the response if it's defined
+                        _info.push(_tryParseToObject(_arrayFromStorage));
                 }
+
+                if (!_isArrayFilled(_info))
+                    _info = null;
             }
             else
-            {
                 _info = _tryParseToObject(_fromStorage, _isItANumber(_fromStorage));
-            }
 
             return _info;
         };
@@ -104,14 +109,10 @@ angular
             if (_isArrayFilled(key))
             {
                 for (var i = 0; i < key.length; i++)
-                {
                     $window[_storage].removeItem(key[i]);
-                }
             }
             else
-            {
                 $window[_storage].removeItem(key);
-            }
         };
 
         var _clearStorage = function(options)

@@ -1,7 +1,8 @@
 // Karma configuration
 // Generated on Wed Dec 24 2014 19:30:10 GMT-0200 (Horário brasileiro de verão)
 
-module.exports = function(config) {
+var _karma = function(config)
+{
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,12 +16,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-	  'bower_components/angular/angular.js',
-	  
-	  'bower_components/angular-mocks/angular-mocks.js',
-	  
-	  'ng-xtorage.js',
-	
+      'bower_components/angular/angular.js',
+
+      'bower_components/angular-mocks/angular-mocks.js',
+
+      'ng-xtorage.js',
+
       'ng-xtorage_test.js'
     ],
 
@@ -67,7 +68,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'], //'Chrome', 'IE', /*'Opera',*/, 'Safari', 'Firefox', 'ChromeCanary'],
+    browsers: ['PhantomJS', 'Chrome', 'IE', /*'Opera',*/, 'Safari', 'Firefox', 'ChromeCanary'],
 
 
     // Continuous Integration mode
@@ -75,3 +76,6 @@ module.exports = function(config) {
     singleRun: false
   });
 };
+
+
+module.exports = _karma;

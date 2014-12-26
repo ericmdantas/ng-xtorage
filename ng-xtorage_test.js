@@ -2,7 +2,7 @@
 
 describe('angular-xtorage', function()
 {
-    var _xtorage, _windowMock, _XTORAGE_DEFAULT_TYPE;
+    var _xtorage, _windowMock, _xtorageDefaultStorage;
 
     beforeEach(module('emd.ng-xtorage'));
 
@@ -11,7 +11,7 @@ describe('angular-xtorage', function()
         _windowMock = $injector.get('$window');
 
         _xtorage = $injector.get('$xtorage');
-        _XTORAGE_DEFAULT_TYPE = $injector.get('XTORAGE_DEFAULT_TYPE');
+        _xtorageDefaultStorage = $injector.get('$xtorageDefaultStorage');
     }));
 
     afterEach(function()
@@ -35,7 +35,8 @@ describe('angular-xtorage', function()
 
         it('should have the right constant value for the type', function()
         {
-            expect(_XTORAGE_DEFAULT_TYPE).toEqual('localStorage');
+            expect(_xtorageDefaultStorage).toBeDefined();
+            expect(_xtorageDefaultStorage.storage).toEqual('localStorage');
         })
     })
 
@@ -45,7 +46,7 @@ describe('angular-xtorage', function()
         {
             describe('single', function()
             {
-                it('should retrieve an string from the storage', function()
+                it('should retrieve a string from the storage', function()
                 {
                     var _key = 'a';
                     var _info = 'b';
@@ -105,6 +106,93 @@ describe('angular-xtorage', function()
 
                     expect(_xtorage.get(_keys)).toEqual(_info);
                 })
+
+                it('should get an array of mixed items', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = [{hey: 'I\'m a string!', cool: {heh: true}}, 'hehe', 42];
+
+                    _xtorage.save(_keys, _info);
+
+                    expect(_xtorage.get(_keys)).toEqual(_info);
+                })
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            describe('single', function()
+            {
+                it('should retrieve a string from the storage', function()
+                {
+                    var _key = 'a';
+                    var _info = 'b';
+
+                    _windowMock.sessionStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toEqual(_info);
+                })
+
+                it('should retrieve a string from the storage', function()
+                {
+                    var _key = 'a';
+                    var _info = '564a5s4as14a23s1a23s1a23s15a4s56a4s56a4s56a4sa1s23a123s1a23s1a32s1a3s1a32s13a2s==';
+
+                    _windowMock.sessionStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toEqual(_info);
+                    expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('string');
+
+                })
+
+                it('should retrieve an object from the storage', function()
+                {
+                    var _key = 'a';
+                    var _infoObj = {info: 'asasasas5a4s654a6s54a65s4a65s4a65s4as'};
+                    var _infoStringified = angular.toJson(_infoObj);
+
+                    _windowMock.sessionStorage.setItem(_key, _infoStringified);
+
+                    expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toEqual(_infoObj);
+                    expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('object');
+                })
+
+                it('should retrieve a number from the storage', function()
+                {
+                    var _key = 'a';
+                    var _info = 12345645432131456789;
+
+                    _windowMock.sessionStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toEqual(_info);
+                    expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('number');
+                })
+            })
+
+            describe('array', function()
+            {
+                it('should get an array of items', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = ['b1', 'b2', 'b3'];
+
+                    for (var i = 0; i < _keys.length; i++)
+                    {
+                        _windowMock.sessionStorage.setItem(_keys[i], _info[i]);
+                    }
+
+                    expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_info);
+                })
+
+                it('should get an array of mixed items', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = [{hey: 'I\'m a string!', cool: {heh: true}}, 'hehe', 42];
+
+                    _xtorage.save(_keys, _info, {storage: 'sessionStorage'});
+
+                    expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_info);
+                })
             })
         })
     })
@@ -145,10 +233,7 @@ describe('angular-xtorage', function()
                     var _keys = ['a1', 'a2', 'a3'];
                     var _info = ['b1', 'b2', 'b3'];
 
-                    for (var i = 0; i < _keys.length; i++)
-                    {
-                        _xtorage.save(_keys, _info);
-                    }
+                    _xtorage.save(_keys, _info);
 
                     for (var j = 0; j < _keys.length; j++)
                     {
@@ -180,10 +265,7 @@ describe('angular-xtorage', function()
                     var _keys = ['a1', 'a2', 'a3'];
                     var _info = [{info: 'b1'}, 2, 'b3'];
 
-                    for (var i = 0; i < _keys.length; i++)
-                    {
-                        _xtorage.save(_keys, _info);
-                    }
+                    _xtorage.save(_keys, _info);
 
                     expect(typeof _windowMock.localStorage.getItem(_keys[0])).toBe('string');
                     expect(typeof _windowMock.localStorage.getItem(_keys[1])).toBe('string');
@@ -197,6 +279,90 @@ describe('angular-xtorage', function()
 
                     expect(typeof _xtorage.get(_keys)[2]).toEqual('string');
                     expect(_xtorage.get(_keys)[2]).toEqual(_info[2]);
+                })
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            describe('single', function()
+            {
+                it('should save a simple string correctly', function()
+                {
+                    var _key = 'a';
+                    var _info = 'b';
+
+                    _xtorage.save(_key, _info, {storage: 'sessionStorage'});
+
+                    expect(_windowMock.sessionStorage.getItem(_key)).toEqual(_info);
+                })
+
+                it('should save a object stringified', function()
+                {
+                    var _key = 'a';
+                    var _info = {info: '123123123123132'};
+                    var _infoStringified = angular.toJson(_info);
+
+                    _xtorage.save(_key, _info, {storage: 'sessionStorage'});
+
+                    expect(typeof _windowMock.sessionStorage.getItem(_key)).toBe('string');
+                    expect(_windowMock.sessionStorage.getItem(_key)).toEqual(_infoStringified);
+                })
+            })
+
+            describe('array', function()
+            {
+                it('should save an array of information correctly - strings', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = ['b1', 'b2', 'b3'];
+
+                    _xtorage.save(_keys, _info, {storage: 'sessionStorage'});
+
+                    for (var j = 0; j < _keys.length; j++)
+                    {
+                        expect(_windowMock.sessionStorage.getItem(_keys[j])).toEqual(_info[j]);
+                    }
+                })
+
+                it('should save an array of information correctly - all info are objects', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = [{info: 'b1'}, {info: 'b2'}, {info: 'b3'}];
+
+                    for (var i = 0; i < _keys.length; i++)
+                    {
+                        _xtorage.save(_keys, _info, {storage: 'sessionStorage'});
+                    }
+
+                    for (var j = 0; j < _keys.length; j++)
+                    {
+                        expect(typeof _windowMock.sessionStorage.getItem(_keys[j])).toBe('string');
+                        expect(_windowMock.sessionStorage.getItem(_keys[j])).toEqual(JSON.stringify(_info[j]));
+
+                        expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_info);
+                    }
+                })
+
+                it('should save an array of information correctly - mixed', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = [{info: 'b1'}, 2, 'b3'];
+
+                    _xtorage.save(_keys, _info, {storage: 'sessionStorage'});
+
+                    expect(typeof _windowMock.sessionStorage.getItem(_keys[0])).toBe('string');
+                    expect(typeof _windowMock.sessionStorage.getItem(_keys[1])).toBe('string');
+                    expect(typeof _windowMock.sessionStorage.getItem(_keys[2])).toBe('string');
+
+                    expect(typeof _xtorage.get(_keys, {storage: 'sessionStorage'})[0]).toEqual('object');
+                    expect(_xtorage.get(_keys, {storage: 'sessionStorage'})[0]).toEqual(_info[0]);
+
+                    expect(typeof _xtorage.get(_keys, {storage: 'sessionStorage'})[1]).toEqual('number');
+                    expect(_xtorage.get(_keys, {storage: 'sessionStorage'})[1]).toEqual(_info[1]);
+
+                    expect(typeof _xtorage.get(_keys, {storage: 'sessionStorage'})[2]).toEqual('string');
+                    expect(_xtorage.get(_keys, {storage: 'sessionStorage'})[2]).toEqual(_info[2]);
                 })
             })
         })
@@ -272,6 +438,75 @@ describe('angular-xtorage', function()
                 })
             })
         })
+
+        describe('sessionStorage', function()
+        {
+            describe('single', function()
+            {
+                it('should remove the specific item', function()
+                {
+                    var _key1 = 'a';
+                    var _key2 = 'a2';
+
+                    var _info1 = 'b';
+                    var _info2 = 'b2';
+
+                    _windowMock.sessionStorage.setItem(_key1, _info1);
+                    _windowMock.sessionStorage.setItem(_key2, _info2);
+
+                    expect(_windowMock.sessionStorage.getItem(_key1)).toEqual(_info1);
+                    expect(_windowMock.sessionStorage.getItem(_key2)).toEqual(_info2);
+
+                    _xtorage.remove(_key1, {storage: 'sessionStorage'});
+
+                    expect(_windowMock.sessionStorage.getItem(_key1)).toBeNull();
+                    expect(_windowMock.sessionStorage.getItem(_key2)).toEqual(_info2);
+                })
+            })
+
+            describe('array', function()
+            {
+                it('should remove an array of items', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = ['b1', 'b2', 'b3'];
+
+                    for (var i = 0; i < _keys.length; i++)
+                    {
+                        _windowMock.sessionStorage.setItem(_keys[i], _info[i]);
+                    }
+
+                    _xtorage.remove(_keys, {storage: 'sessionStorage'});
+
+                    for (var j = 0; j < _keys.length; j++)
+                    {
+                        expect(_windowMock.sessionStorage.getItem(_keys[j])).toBeNull();
+                    }
+                })
+
+                it('should remove just the right part of the items', function()
+                {
+                    var _keys = ['a1', 'a2', 'a3'];
+                    var _info = ['b1', 'b2', 'b3'];
+
+                    var _removeOnly = ['a1', 'a3'];
+
+                    for (var i = 0; i < _keys.length; i++)
+                    {
+                        _windowMock.sessionStorage.setItem(_keys[i], _info[i]);
+                    }
+
+                    _xtorage.remove(_removeOnly, {storage: 'sessionStorage'});
+
+                    for (var j = 0; j < _keys.length; j++)
+                    {
+                        expect(_windowMock.sessionStorage.getItem(_removeOnly[j])).toBeNull();
+                    }
+
+                    expect(_windowMock.sessionStorage.getItem('a2')).toEqual('b2');
+                })
+            })
+        })
     })
 
     describe('clear', function()
@@ -309,6 +544,70 @@ describe('angular-xtorage', function()
                 {
                     expect(_windowMock.sessionStorage.getItem('a'+i)).toBeNull();
                 }
+            })
+        })
+    })
+
+    describe('all together', function()
+    {
+        describe('localStorage', function()
+        {
+            it('should save an object to the storage', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [{z: 'z'}, 42];
+
+                _xtorage.save(_keys, _infos);
+
+                expect(_xtorage.get(_keys)).toEqual(_infos);
+            })
+
+            it('should remove an array from the storage - get should be null', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [{z: 'z'}, 42];
+
+                _xtorage.save(_keys, _infos);
+
+                expect(_xtorage.get(_keys)).toEqual(_infos);
+
+                _xtorage.remove(_keys);
+
+                expect(_xtorage.get(_keys)).toBeNull();
+            })
+
+            it('should remove an array from the storage - get should be only the last item', function()
+            {
+                var _keys = ['a', '1', '3'];
+                var _keysExceptLast = ['a', '1'];
+
+                var _infos = [{z: 'z'}, 42, 'aeHOOOOOOOOOOO'];
+                var _infosExceptLast = [{z: 'z'}, 42, 'aeHOOOOOOOOOOO'];
+
+                _xtorage.save(_keys, _infos);
+
+                expect(_xtorage.get(_keys)).toEqual(_infosExceptLast);
+
+                _xtorage.remove(_keysExceptLast);
+
+                expect(_xtorage.get(_keysExceptLast)).toBeNull();
+
+                expect(_xtorage.get(_keys[2])).toEqual(_infos[2]);
+            })
+
+            it('should remove all the items', function()
+            {
+                var _keys = ['a', '1', '3'];
+
+                var _infos = [{z: 'z'}, 42, 'aeHOOOOOOOOOOO'];
+
+                _xtorage.save(_keys, _infos);
+
+                expect(_xtorage.get(_keys)).toEqual(_infos);
+
+                _xtorage.clear();
+
+                expect(_xtorage.get(_keys)).toBeNull();
             })
         })
     })

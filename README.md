@@ -16,7 +16,7 @@ I mean, it'll do all the annoying work for you:
 
 [You can return an object without having to parse it](#get)
 
-[You can remove an object or an array of obects](#remove)
+[You can remove an object or an array of objects](#remove)
 
 [You can clear the whole storage (session or local) just by calling a method](#clear)
 
@@ -206,7 +206,7 @@ Last, but not least, all the methods above will work when having arrays as param
   
     var _keys = ['key1', 'key2', 'key3'];
     
-    $xtorage.remove(_keys); // will get info from the localStorage
+    $xtorage.remove(_keys); // will remove info from the localStorage
     
     var _info = $xtorage.get(_keys);
     
