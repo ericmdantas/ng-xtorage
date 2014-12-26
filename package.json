@@ -29,6 +29,7 @@
   "keywords": [
     "storage",
     "web",
+	"angular-xtorage",
     "sessionStorage",
     "localStorage",
     "angular-storage"
