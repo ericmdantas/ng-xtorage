@@ -10,15 +10,17 @@ It saves, retrieves and removes info from the web storage respecting the type of
 
 And not only that, it **extends** some of web storages behaviors. For example, **you couldn't save, retrieve and remove things using arrays, well, now you can**;
 
-I mean, it'll do all the annoying work for you. 
+I mean, it'll do all the annoying work for you:
 
-**If you save an object, you'll get an object back.**
+[You can save an object without having to stringify it](#save)
 
-**If you save a number, you'll get a number back.**
+[You can return an object without having to parse it](#get)
 
-**If you save an array of stuff, you might get back an array of stuff.**
+[You can remove an object or an array of obects](#remove)
 
-**If you save an array of stuff, you might remove an array of stuff.**
+[You can clear the whole storage (session or local) just by calling a method](#clear)
+
+[You can do it all using arrays too!](#arrays)
 
 
 # why?
@@ -169,4 +171,44 @@ The only parameter is the options object. For now it checks the existance of the
         console.log(_localInfoAfterRemoval); // null
         console.log(_sessionInfoAfterRemoval); // null
       }]);
+  ```
+
+# arrays
+
+Last, but not least, all the methods above will work when having arrays as parameters too.
+
+### usage:
+
+#### saving
+
+  ```javascript
+  
+    var _keys = ['key1', 'key2', 'key3'];
+    var _info = [{hey: 'I\'m an object!'}, 'and I\'m a string :D', 42];
+  
+    $xtorage.save(_keys, _info); // will save info in the localStorage
+  ```
+  
+#### retrieving
+
+  ```javascript
+  
+    var _keys = ['key1', 'key2', 'key3'];
+    
+    var _info = $xtorage.get(_keys); // will get info from the localStorage
+    
+    console.log(_info); // [{hey: 'I\'m an object!'}, 'and I\'m a string :D', 42]
+  ```
+  
+#### removing
+
+  ```javascript
+  
+    var _keys = ['key1', 'key2', 'key3'];
+    
+    $xtorage.remove(_keys); // will get info from the localStorage
+    
+    var _info = $xtorage.get(_keys);
+    
+    console.log(_info); // null
   ```
