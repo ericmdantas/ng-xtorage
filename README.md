@@ -1,6 +1,6 @@
 # ng-xtorage
 
-Web Storage made simple (sessionStorage & localStorage).
+Web Storage made simple and more powerful (sessionStorage & localStorage).
 
 # what?
 
@@ -8,7 +8,7 @@ This angular service is meant to be an easy-to-use API that interacts with the w
 
 It saves, retrieves and removes info from the web storage respecting the type of info being passed around.
 
-And not only that, it **extends** some of web storages behaviors. For example, **you couldn't save, retrieve and remove things using arrays, now you can**;
+And not only that, it **extends** some of web storages behaviors. For example, **you couldn't save, retrieve and remove things using arrays, well, now you can**;
 
 I mean, it'll do all the annoying work for you. 
 
@@ -27,6 +27,16 @@ Because it sucks to keep doing the same workarounds every project to: save, retr
 
 Not to mention the headache of stringifying objects when saving and parsing them back to objects when retrieving them from the storage. Similar problems happen when saving numbers.
 
+
+# more power
+
+Usually, when working localStorage and sessionStorage, no matter what you save there, you'll always get back a string. Which sucks, because all the parsing is up to us. 
+
+When using ```$xtorage```, you will save something and you'll get that thing back. It doesn't matter if it's a number, object or string. No parsing needed.
+
+This service will also allow you to save, retrieve and remove arrays from the storage. You don't need loops anymore.
+
+
 # how?
 
 The main service ```$xtorage``` exposes four simple methods:
@@ -35,6 +45,7 @@ The main service ```$xtorage``` exposes four simple methods:
 - save;
 - remove;
 - clear.
+
 
 ## get
 
