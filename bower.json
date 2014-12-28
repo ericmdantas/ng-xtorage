@@ -16,11 +16,14 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+	".idea",
+	".gitignore",
     "node_modules",
+	"LICENSE",
     "bower_components",
 	"coverage",
-	"package.json",
 	"grunfile.js",
+	"package.json",
 	"*.conf.js",
 	"*_test.js"
   ],

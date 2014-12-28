@@ -12,15 +12,9 @@ And not only that, it **extends** some of web storages behaviors. For example, *
 
 I mean, it'll do all the annoying work for you:
 
-[You can save an object without having to stringify it](#save)
+[Making the Web Storage simpler!](#how)
 
-[You can return an object without having to parse it](#get)
-
-[You can remove an object or an array of objects](#remove)
-
-[You can clear the whole storage (session or local) just by calling a method](#clear)
-
-[You can do it all using arrays too!](#arrays)
+[Making it more powerful!](#arrays)
 
 
 # why?
