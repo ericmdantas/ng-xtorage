@@ -2,6 +2,10 @@
 
 Web Storage made simple and more powerful (sessionStorage & localStorage).
 
+# installation
+
+```bower install ng-xtorage```
+
 # what?
 
 This angular service is meant to be an easy-to-use API that interacts with the web storage.
