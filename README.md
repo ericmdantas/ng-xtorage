@@ -73,7 +73,9 @@ The second parameter is the options object. For now it checks the existance of t
 
 The first parameter is the key, as in ```window.localStorage.setItem(**keyGoesHere**)```;
 
-The second parameter is the options object. For now it checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
+The second parameter is the info itself. It might be a string like in ```$xtorage.save('key', 'info')```, an object like in ```$xtorage.save('key', {info: 'here'})``` or even an number ```$xtorage.save('key', 42)```.
+
+The third parameter is the options object. For now it checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
 
 #### usage:
 
