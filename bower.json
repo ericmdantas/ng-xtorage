@@ -10,6 +10,7 @@
 	"web-storage",
 	"angular-storage",
 	"angular-xtorage",
+	"ng-xtorage",
     "sessionStorage",
     "localStorage"
   ],
