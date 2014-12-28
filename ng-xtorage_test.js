@@ -562,6 +562,27 @@ describe('angular-xtorage', function()
                 expect(_xtorage.get(_keys)).toEqual(_infos);
             })
 
+            it('should save a deep object to the storage', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [{a: {b: true, c: {d: {e: 'f', g: [1,2, 3]}}}}, 42];
+
+                _xtorage.save(_keys, _infos);
+
+                expect(_xtorage.get(_keys)).toEqual(_infos);
+            })
+
+            it('should save an array correctly to the storage', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [[{a: 1}], {somethingElse: 'here'}];
+
+                _xtorage.save(_keys, _infos);
+
+                expect(_xtorage.get(_keys)).toEqual(_infos);
+                expect(_xtorage.get(_keys[0])).toEqual(_infos[0]);
+            })
+
             it('should remove an array from the storage - get should be null', function()
             {
                 var _keys = ['a', '1'];
