@@ -90,6 +90,17 @@ describe('angular-xtorage', function()
                     expect(_xtorage.get(_key)).toEqual(_info);
                     expect(typeof _xtorage.get(_key)).toBe('number');
                 })
+
+                it('should retrieve a boolean from the storage', function()
+                {
+                    var _key = 'a';
+                    var _info = true;
+
+                    _windowMock.localStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key)).toBe(true);
+                    expect(typeof _xtorage.get(_key)).toBe('boolean');
+                });
             })
 
             describe('array', function()
@@ -583,6 +594,28 @@ describe('angular-xtorage', function()
                 expect(_xtorage.get(_keys[0])).toEqual(_infos[0]);
             })
 
+            it('should save a boolean to the storage - true', function()
+            {
+                var _key = 'a';
+                var _info = true;
+
+                _xtorage.save(_key, _info);
+
+                expect(_xtorage.get(_key)).toBe(true);
+                expect(typeof _xtorage.get(_key)).toBe('boolean');
+            })
+
+            it('should save a boolean to the storage - false', function()
+            {
+                var _key = 'a';
+                var _info = false;
+
+                _xtorage.save(_key, _info);
+
+                expect(_xtorage.get(_key)).toBe(false);
+                expect(typeof _xtorage.get(_key)).toBe('boolean');
+            })
+
             it('should remove an array from the storage - get should be null', function()
             {
                 var _keys = ['a', '1'];
@@ -629,6 +662,110 @@ describe('angular-xtorage', function()
                 _xtorage.clear();
 
                 expect(_xtorage.get(_keys)).toBeNull();
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            it('should save an object to the storage', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [{z: 'z'}, 42];
+
+                _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_infos);
+            })
+
+            it('should save a deep object to the storage', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [{a: {b: true, c: {d: {e: 'f', g: [1,2, 3]}}}}, 42];
+
+                _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_infos);
+            })
+
+            it('should save an array correctly to the storage', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [[{a: 1}], {somethingElse: 'here'}];
+
+                _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_infos);
+                expect(_xtorage.get(_keys[0], {storage: 'sessionStorage'})).toEqual(_infos[0]);
+            })
+
+            it('should save a boolean to the storage - true', function()
+            {
+                var _key = 'a';
+                var _info = true;
+
+                _xtorage.save(_key, _info, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toBe(true);
+                expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('boolean');
+            })
+
+            it('should save a boolean to the storage - false', function()
+            {
+                var _key = 'a';
+                var _info = false;
+
+                _xtorage.save(_key, _info, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toBe(false);
+                expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('boolean');
+            })
+
+            it('should remove an array from the storage - get should be null', function()
+            {
+                var _keys = ['a', '1'];
+                var _infos = [{z: 'z'}, 42];
+
+                _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_infos);
+
+                _xtorage.remove(_keys, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toBeNull();
+            })
+
+            it('should remove an array from the storage - get should be only the last item', function()
+            {
+                var _keys = ['a', '1', '3'];
+                var _keysExceptLast = ['a', '1'];
+
+                var _infos = [{z: 'z'}, 42, 'aeHOOOOOOOOOOO'];
+                var _infosExceptLast = [{z: 'z'}, 42, 'aeHOOOOOOOOOOO'];
+
+                _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_infosExceptLast);
+
+                _xtorage.remove(_keysExceptLast, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keysExceptLast, {storage: 'sessionStorage'})).toBeNull();
+
+                expect(_xtorage.get(_keys[2], {storage: 'sessionStorage'})).toEqual(_infos[2]);
+            })
+
+            it('should remove all the items', function()
+            {
+                var _keys = ['a', '1', '3'];
+
+                var _infos = [{z: 'z'}, 42, 'aeHOOOOOOOOOOO'];
+
+                _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_infos);
+
+                _xtorage.clear({storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toBeNull();
             })
         })
     })

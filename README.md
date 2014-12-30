@@ -32,7 +32,7 @@ Not to mention the headache of stringifying objects when saving and parsing them
 
 Usually, when working localStorage and sessionStorage, no matter what you save there, you'll always get back a string. Which sucks, because all the parsing is up to us. 
 
-When using ```$xtorage```, you will save something and you'll get that thing back. It doesn't matter if it's a number, object or string. No parsing needed.
+When using ```$xtorage```, you will save something and you'll get that thing back. It doesn't matter if it's a number, object, string or even a boolean! No parsing needed.
 
 This service will also allow you to save, retrieve and remove arrays from the storage. You don't need loops anymore.
 
@@ -94,7 +94,7 @@ The third parameter is the options object. For now it checks the existance of th
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
         
         var _fromLocal = $xtorage.get("someKeyHere");
-        var _fromLocal = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
+        var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
         
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
@@ -212,3 +212,57 @@ Last, but not least, all the methods above will work when having arrays as param
     
     console.log(_info); // null
   ```
+
+# configurable
+
+Oh, I forgot to say that this service is configurable.
+
+By default, it'll use ```localStorage``` as its main storage, so, to interact with the sessionStorage you'll have to do it by using the options parameter of the api:```{storage: 'sessionStorage'}```, as in ```$xtorage.clear({storage: 'sessionStorage'})```.
+
+You can configure it by running:
+
+```javascript
+
+  angular
+    .module('myAwesomeModule', ['emd.ng-xtorage'])
+    .config(['$xtorageDefaultStorage', function($xtorageDefaultStorage)
+    {
+      $xtorageDefaultStorage.storage = 'sessionStorage';
+    }])
+    .run(['$xtorage', function($xtorage)
+    {
+        $xtorage.save('hey', 'savings will go to sessionStorage now, awesome, right?'); //saves in the sessionStorage
+
+        var _fromSession = $xtorage.get('hey'); //get from the sessionStorage
+
+        console.log(_fromSession); // 'savings will go to sessionStorage now, awesome, right?'
+
+        $xtorage.remove('hey'); // removes from sessionStorage
+
+        // and on and on
+    }])
+```
+
+So, now to save in the localStorage you'll have the inform the options param:
+
+```javascript
+
+  angular
+    .module('myAwesomeModule', ['emd.ng-xtorage'])
+    .config(['$xtorageDefaultStorage', function($xtorageDefaultStorage)
+    {
+      $xtorageDefaultStorage.storage = 'sessionStorage';
+    }])
+    .run(['$xtorage', function($xtorage)
+    {
+        $xtorage.save('hey', 'savings will go to localStorage now, awesome, right?', {storage: 'localStorage'); //saves in the localStorage
+
+        var _fromSession = $xtorage.get('hey'); //get from the localStorage
+
+        console.log(_fromSession); // 'savings will go to localStorage now, awesome, right?'
+
+        $xtorage.remove('hey'); // removes from localStorage
+
+        // and on and on
+    }])
+```
