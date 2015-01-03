@@ -33,6 +33,9 @@ angular
         {
             var NUMBER_PATTERN = /[0-9]/;
 
+            if (!angular.isString(str) || !str.length)
+                return null;
+
             for (var i = 0; i < str.length; i++)
             {
                 if (!NUMBER_PATTERN.test(str[i]))

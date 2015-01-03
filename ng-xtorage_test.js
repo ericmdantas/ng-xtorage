@@ -46,6 +46,13 @@ describe('angular-xtorage', function()
         {
             describe('single', function()
             {
+                it('should return null when there\'s nothing in the storage', function()
+                {
+                    var _key = 'a';
+
+                    expect(_xtorage.get(_key)).toBeNull();
+                })
+
                 it('should retrieve a string from the storage', function()
                 {
                     var _key = 'a';
@@ -105,6 +112,13 @@ describe('angular-xtorage', function()
 
             describe('array', function()
             {
+                it('should return null when there\'s nothing in the storage', function()
+                {
+                    var _key = ['a', 'b'];
+
+                    expect(_xtorage.get(_key)).toBeNull();
+                })
+
                 it('should get an array of items', function()
                 {
                     var _keys = ['a1', 'a2', 'a3'];
@@ -134,6 +148,13 @@ describe('angular-xtorage', function()
         {
             describe('single', function()
             {
+                it('should return null when there\'s nothing in the storage', function()
+                {
+                    var _key = 'a';
+
+                    expect(_xtorage.get(_key)).toBeNull();
+                })
+
                 it('should retrieve a string from the storage', function()
                 {
                     var _key = 'a';
@@ -182,6 +203,13 @@ describe('angular-xtorage', function()
 
             describe('array', function()
             {
+                it('should return null when there\'s nothing in the storage', function()
+                {
+                    var _key = ['a', 'b'];
+
+                    expect(_xtorage.get(_key)).toBeNull();
+                })
+
                 it('should get an array of items', function()
                 {
                     var _keys = ['a1', 'a2', 'a3'];
