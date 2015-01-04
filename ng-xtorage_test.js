@@ -622,6 +622,25 @@ describe('angular-xtorage', function()
                 expect(_xtorage.get(_keys[0])).toEqual(_infos[0]);
             })
 
+            it('should save a HUGE array correctly to the storage', function()
+            {
+                var _keys = [];
+                var _infos = [];
+
+                var ARRAY_SIZE = 10000;
+
+                for (var i = 0; i < ARRAY_SIZE; i++)
+                {
+                    _keys.push('a'+i);
+                    _infos.push({a: 'a'+i});
+                }
+
+                _xtorage.save(_keys, _infos);
+
+                expect(_xtorage.get(_keys)).toEqual(_infos);
+                expect(_xtorage.get(_keys[0])).toEqual(_infos[0]);
+            })
+
             it('should save a boolean to the storage - true', function()
             {
                 var _key = 'a';
@@ -719,6 +738,25 @@ describe('angular-xtorage', function()
             {
                 var _keys = ['a', '1'];
                 var _infos = [[{a: 1}], {somethingElse: 'here'}];
+
+                _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
+
+                expect(_xtorage.get(_keys, {storage: 'sessionStorage'})).toEqual(_infos);
+                expect(_xtorage.get(_keys[0], {storage: 'sessionStorage'})).toEqual(_infos[0]);
+            })
+
+            it('should save a HUGE array correctly to the storage', function()
+            {
+                var _keys = [];
+                var _infos = [];
+
+                var ARRAY_SIZE = 10000;
+
+                for (var i = 0; i < ARRAY_SIZE; i++)
+                {
+                    _keys.push('a'+i);
+                    _infos.push({a: 'a'+i});
+                }
 
                 _xtorage.save(_keys, _infos, {storage: 'sessionStorage'});
 
