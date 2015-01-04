@@ -4,7 +4,7 @@
   "version": "0.0.4",
   "homepage": "https://github.com/ericmdantas/angular-xtorage",
   "authors": ["ericmdantas <ericdantas0@hotmail.com>"],
-  "description": "Web Storage made simple and more powerful (sessionStorage & localStorage).",
+  "description": "Web Storage made simple and more powerful (sessionStorage & localStorage)",
   "keywords": [
     "storage",
 	"web-storage",
