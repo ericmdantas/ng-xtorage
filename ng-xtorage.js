@@ -5,8 +5,14 @@
     angular
         .module('emd.ng-xtorage', [])
         .provider('$xtorageDefaultStorage', function () {
-            this.$get = function () {
-                return {storage: 'localStorage'}
+
+            var self = this;
+
+            self.storage = 'localStorage';
+
+            this.$get = function ()
+            {
+                return {storage: self.storage}
             };
         })
         .service('$xtorage', ['$window', '$xtorageDefaultStorage', function ($window, $xtorageDefaultStorage) {
