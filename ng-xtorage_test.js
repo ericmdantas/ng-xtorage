@@ -2,16 +2,17 @@
 
 describe('angular-xtorage', function()
 {
-    var _xtorage, _windowMock, _xtorageDefaultStorage;
+    var _xtorage, _windowMock, _xtorageProvider;
 
-    beforeEach(module('emd.ng-xtorage'));
+    beforeEach(module('emd.ng-xtorage', function($xtorageProvider)
+    {
+        _xtorageProvider = $xtorageProvider;
+    }));
 
     beforeEach(inject(function($injector)
     {
         _windowMock = $injector.get('$window');
-
         _xtorage = $injector.get('$xtorage');
-        _xtorageDefaultStorage = $injector.get('$xtorageDefaultStorage');
     }));
 
     afterEach(function()
@@ -35,8 +36,8 @@ describe('angular-xtorage', function()
 
         it('should have the right constant value for the type', function()
         {
-            expect(_xtorageDefaultStorage).toBeDefined();
-            expect(_xtorageDefaultStorage.storage).toEqual('localStorage');
+            expect(_xtorageProvider).toBeDefined();
+            expect(_xtorageProvider.storage).toEqual('localStorage');
         })
     })
 

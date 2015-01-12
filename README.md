@@ -225,9 +225,9 @@ You can configure it by running:
 
   angular
     .module('myAwesomeModule', ['emd.ng-xtorage'])
-    .config(['$xtorageDefaultStorageProvider', function($xtorageDefaultStorageProvider)
+    .config(['$xtorageProvider', function($xtorageProvider)
     {
-      $xtorageDefaultStorageProvider.storage = 'sessionStorage';
+      $xtorageProvider.storage = 'sessionStorage';
     }])
     .run(['$xtorage', function($xtorage)
     {
@@ -249,9 +249,9 @@ So, now to save in the localStorage you'll have the inform the options param:
 
   angular
     .module('myAwesomeModule', ['emd.ng-xtorage'])
-    .config(['$xtorageDefaultStorageProvider', function($xtorageDefaultStorageProvider)
+    .config(['$xtorageProvider', function($xtorageProvider)
     {
-      $xtorageDefaultStorageProvider.storage = 'sessionStorage';
+      $xtorageProvider.storage = 'sessionStorage';
     }])
     .run(['$xtorage', function($xtorage)
     {
