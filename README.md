@@ -2,39 +2,46 @@
 
 Web Storage made simple and more powerful (sessionStorage & localStorage).
 
+Forget about stringifying and parsing JSON.
+Forget about loops to save/retrieve stuff in and from the Web Storage.
+Forget about depeding on your user to 'expire' your Web Storage.
+It's all in your hands now.
+
 # installation
 
 ```bower install ng-xtorage```
 
 # what?
 
-This angular service is meant to be an easy-to-use API that interacts with the web storage.
+This angular service is meant to be a **tiny**, yet **powerful** and **easy-to-use** API that interacts with the web storage.
 
-It saves, retrieves and removes info from the web storage respecting the type of info being passed around.
+It saves, retrieves and removes info from the web storage respecting not only the type of info being passed around, but also its life time.
 
-And not only that, it **extends** some of web storages behaviors. For example, **you couldn't save, retrieve and remove things using arrays, well, now you can**;
+For example:
+- **You couldn't save, retrieve and remove things using arrays, right? Well, now you can**;
+- **You couldn't make info from the Web Storage expire, right? Well, now you can**;
 
-I mean, it'll do all the annoying work for you:
 
-[Making the Web Storage simpler!](#how)
+[Make the Web Storage simpler!](#how)
 
-[Making it more powerful!](#arrays)
+[Make it more powerful!](#arrays)
+
+[You choose who lives and who dies](#expiration)
+
+[Make it your own!](#configurable)
 
 
 # why?
 
-Because it sucks to keep doing the same workarounds every project to: save, retrieve and remove info from the web storage.
-
-Not to mention the headache of stringifying objects when saving and parsing them back to objects when retrieving them from the storage. Similar problems happen when saving numbers.
+Because it sucks to keep doing the same workarounds every project to: save, retrieve, remove and expire info from the web storage.
+Stringify this, parse that.. loop through this.. enough.
 
 
 # more power
 
-Usually, when working localStorage and sessionStorage, no matter what you save there, you'll always get back a string. Which sucks, because all the parsing is up to us. 
+Usually, when working with localStorage and sessionStorage, no matter what you save there, you'll always get back a string. Which sucks, because all the parsing is up to us.
 
 When using ```$xtorage```, you will save something and you'll get that thing back. It doesn't matter if it's a number, object, string or even a boolean! No parsing needed.
-
-This service will also allow you to save, retrieve and remove arrays from the storage. You don't need loops anymore.
 
 
 # how?
@@ -46,6 +53,11 @@ The main service ```$xtorage``` exposes four simple methods:
 - remove;
 - clear.
 
+And two configurable properties (provider):
+
+- storage; // defaults to 'localStorage', can be changed in config time to 'sessionStorage'
+- storageExpiration. // defaults to 'infinity', can be changed to any number (milliseconds)
+
 
 ## get
 
@@ -53,7 +65,8 @@ The main service ```$xtorage``` exposes four simple methods:
 
 The first parameter is the key, as in ```window.localStorage.getItem(**keyGoesHere**)```;
 
-The second parameter is the options object. For now it checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
+The second parameter is the options object.
+It checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
 
 #### usage:
 
@@ -65,8 +78,8 @@ The second parameter is the options object. For now it checks the existance of t
         var _fromLocal = $xtorage.get("someKeyHere"); // gets info from localStorage
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // gets info from sessionStorage
         
-        console.log(_fromLocal);
-        console.log(_fromSession);
+        console.log(_fromLocal); // whatever was held with that key in localStorage
+        console.log(_fromSession); // whatever was held with that key in sessionStorage
       }]);
   ```    
   
@@ -79,7 +92,9 @@ The first parameter is the key, as in ```window.localStorage.setItem(**keyGoesHe
 
 The second parameter is the info itself. It might be a string like in ```$xtorage.save('key', 'info')```, an object like in ```$xtorage.save('key', {info: 'here'})``` or even an number ```$xtorage.save('key', 42)```.
 
-The third parameter is the options object. For now it checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
+The third parameter is the options object.
+It checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
+It also checks the existance of the property ```expiration```, if it exists, it'll take its value **(must be a number/milliseconds)** and register the expiration of the saved info;
 
 #### usage:
 
@@ -92,12 +107,19 @@ The third parameter is the options object. For now it checks the existance of th
       
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
+        $xtorage.save("someOtherKeyHereExpiration", _info, {storage: "sessionStorage", expiration: 10000}); // saves in sessionStorage, will expire in 10 seconds
         
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
+        var _fromSessionExpiration = $xtorage.get("someOtherKeyHereExpiration", {storage: "sessionStorage"});
         
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
+        console.log(_fromSessionExpiration); // displays the object saved previously, not a string
+
+        // 11 seconds later...
+
+        console.log(_fromSessionExpiration); // null
       }]);
   ```    
 
@@ -175,7 +197,7 @@ The only parameter is the options object. For now it checks the existance of the
 
 # arrays
 
-Last, but not least, all the methods above will work when having arrays as parameters too.
+All the methods above will work when having arrays as parameters too.
 
 ### usage:
 
@@ -213,13 +235,62 @@ Last, but not least, all the methods above will work when having arrays as param
     console.log(_info); // null
   ```
 
+# expiration
+
+Expiring something saved to the storage is piece of cake.
+
+### configuring at config time
+
+```javascript
+
+    angular
+        .module('myAwesomeModule', ['emd.ng-xtorage'])
+        .config(['$xtorageProvider', function($xtorageProvider)
+        {
+            $xtorageProvider.storageExpiration = 10000; // will expire everything saved to the store in 10 seconds
+        }])
+        .run(function($xtorage)
+        {
+            $xtorage.save('key', 'info');
+
+            var _fromStorage = $xtorage.get('key');
+
+            console.log(_fromStorage); // info
+
+            // 11 seconds later
+
+            console.log(_fromStorage); // null
+        })
+```
+
+### on every save
+
+```javascript
+
+    angular
+        .module('myAwesomeModule', ['emd.ng-xtorage'])
+        .run(function($xtorage)
+        {
+            $xtorage.save('key', 'info', {expiration: 10000});
+
+            var _fromStorage = $xtorage.get('key');
+
+            console.log(_fromStorage); // info
+
+            // 11 seconds later
+
+            console.log(_fromStorage); // null
+        })
+```
+
+
 # configurable
 
-Oh, I forgot to say that this service is configurable.
+Defaults:
+- Storage is ```localStorage```;
+- Expiration is ```infinity```;
 
-By default, it'll use ```localStorage``` as its main storage, so, to interact with the sessionStorage you'll have to do it by using the options parameter of the api:```{storage: 'sessionStorage'}```, as in ```$xtorage.clear({storage: 'sessionStorage'})```.
-
-You can configure it by running:
+Configuring:
 
 ```javascript
 
@@ -227,7 +298,8 @@ You can configure it by running:
     .module('myAwesomeModule', ['emd.ng-xtorage'])
     .config(['$xtorageProvider', function($xtorageProvider)
     {
-      $xtorageProvider.storage = 'sessionStorage';
+      $xtorageProvider.storage = 'sessionStorage'; // defaults to localStorage
+      $xtorageProvider.storageExpiration = 10000; // defaults to 'infinity'
     }])
     .run(['$xtorage', function($xtorage)
     {
@@ -255,7 +327,7 @@ So, now to save in the localStorage you'll have the inform the options param:
     }])
     .run(['$xtorage', function($xtorage)
     {
-        $xtorage.save('hey', 'savings will go to localStorage now, awesome, right?', {storage: 'localStorage'); //saves in the localStorage
+        $xtorage.save('hey', 'savings will go to localStorage now, awesome, right?', {storage: 'localStorage'); //saves in the localStorage, and will expire in 10 seconds :D
 
         var _fromSession = $xtorage.get('hey'); //get from the localStorage
 
@@ -266,3 +338,27 @@ So, now to save in the localStorage you'll have the inform the options param:
         // and on and on
     }])
 ```
+
+#LICENSE
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Eric Mendes Dantas
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

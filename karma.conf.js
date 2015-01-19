@@ -22,7 +22,8 @@ var _karma = function(config)
 
       'ng-xtorage.js',
 
-      'ng-xtorage_test.js'
+      'ng-xtorage_test.js',
+      'ng-xtorage-expiration_test.js'
     ],
 
 

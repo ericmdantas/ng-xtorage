@@ -1,8 +1,10 @@
 "use strict";
 
-describe('angular-xtorage', function()
+describe('ng-xtorage', function()
 {
-    var _xtorage, _windowMock, _xtorageProvider;
+    var _xtorage, _windowMock, _xtorageProvider, _timeoutMock;
+    var MAX_FLUSH = 1000;
+    var DEFAULT_XPIRATION = 'infinity';
 
     beforeEach(module('emd.ng-xtorage', function($xtorageProvider)
     {
@@ -13,6 +15,7 @@ describe('angular-xtorage', function()
     {
         _windowMock = $injector.get('$window');
         _xtorage = $injector.get('$xtorage');
+        _timeoutMock = $injector.get('$timeout');
     }));
 
     afterEach(function()
@@ -38,6 +41,7 @@ describe('angular-xtorage', function()
         {
             expect(_xtorageProvider).toBeDefined();
             expect(_xtorageProvider.storage).toEqual('localStorage');
+            expect(_xtorageProvider.storageExpiration).toEqual(DEFAULT_XPIRATION);
         })
     })
 
