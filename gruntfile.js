@@ -40,6 +40,7 @@ var _grunt = function(grunt)
             unit:
             {
                 configFile: 'karma.conf.js',
+                browsers: ['PhantomJS'],
                 singleRun: true
             }
         }
