@@ -1,5 +1,7 @@
 # ng-xtorage
 
+[![Build Status](https://travis-ci.org/ericmdantas/ng-xtorage.svg?branch=master)](https://travis-ci.org/ericmdantas/ng-xtorage)
+
 Web Storage made simple and more powerful (sessionStorage & localStorage).
 
 Forget about stringifying and parsing JSON.
