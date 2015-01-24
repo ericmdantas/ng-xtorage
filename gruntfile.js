@@ -58,7 +58,7 @@ var _grunt = function(grunt)
 
     _loadGruntTasks();
 
-    grunt.registerTask('build', ['karma:unit', 'uglify']);
+    grunt.registerTask('build', ['karma:unit', 'uglify', 'coveralls']);
 }
 
 module.exports = _grunt;
