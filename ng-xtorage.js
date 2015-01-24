@@ -221,7 +221,7 @@
             var _link = function(scope, element, attrs)
             {
                 var _watchThisProp = 'infoToBeSaved';
-                var _key = attrs.keyForStorage;
+                var _key = attrs.storageKey;
 
                 attrs.$observe(_watchThisProp, function(info)
                 {

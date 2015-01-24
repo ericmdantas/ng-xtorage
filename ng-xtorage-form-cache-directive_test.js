@@ -15,7 +15,7 @@ describe('$xtorageFormCache', function()
 
         _scope.model = {a: "1", b: {z: "x"}, c: true, d: 1.5};
 
-        _html = '<form name="form" $xtorage-form-cache key-for-storage="key" info-to-be-saved="{{model}}">'+
+        _html = '<form name="form" $xtorage-form-cache storage-key="key" info-to-be-saved="{{model}}">'+
                         '<input name="input1" type="text" ng-model="model.a"/>'+
                         '<input name="input2" type="text" ng-model="model.b.z"/>'+
                         '<input name="input3" type="text" type="checkbox" ng-model="model.c"/>'+

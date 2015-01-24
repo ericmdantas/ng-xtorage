@@ -8,11 +8,13 @@ Forget about loops to save/retrieve stuff in and from the Web Storage.
 
 Forget about depeding on your user to 'expire' your Web Storage.
 
+Forget about manually saving that big form to the storage.
+
 It's all in your hands now.
 
 # installation
 
-```bower install ng-xtorage```
+```bower install ng-xtorage --save```
 
 # what?
 
@@ -21,15 +23,19 @@ This angular service is meant to be a **tiny**, yet **powerful** and **easy-to-u
 It saves, retrieves and removes info from the web storage respecting not only the type of info being passed around, but also its life time.
 
 For example:
-- **You couldn't save, retrieve and remove things using arrays, right? Well, now you can**;
-- **You couldn't make info from the Web Storage expire, right? Well, now you can**;
+- You couldn't save, retrieve and remove things using arrays, right?
+- You also couldn't make info from the Web Storage expire, right?
+- Saving a form to the storage, you had to do it manually, right?
+- Well, now you can! ```$xtorage``` got you covered.
 
 
 [Make the Web Storage simpler!](#how)
 
 [Make it more powerful!](#arrays)
 
-[You choose who lives and who dies](#expiration)
+[You choose who lives and who dies! >:D](#expiration)
+
+[Cache that big form, just in case](#form)
 
 [Make it your own!](#configurable)
 
@@ -37,24 +43,47 @@ For example:
 # why?
 
 Because it sucks to keep doing the same workarounds every project to: save, retrieve, remove and expire info from the web storage.
-Stringify this, parse that.. loop through this.. enough.
+Stringify this, parse that.. loop through this.. enough is enough.
 
 
 # more power
 
-Usually, when working with localStorage and sessionStorage, no matter what you save there, you'll always get back a string. Which sucks, because all the parsing is up to us.
+Usually, when working with localStorage and sessionStorage, no matter what you have, you'll have to save as a string and you'll always get back a string. Which sucks, because all the parsing is up to us.
 
 When using ```$xtorage```, you will save something and you'll get that thing back. It doesn't matter if it's a number, object, string or even a boolean! No parsing needed.
 
 
 # how?
 
-The main service ```$xtorage``` exposes four simple methods:
+The main service ```$xtorage``` exposes:
+
+A directive ```$xtorageFormCache``` with two attributes:
+
+- storage-key;
+- info-to-be-saved;
+
+
+Four simple methods:
 
 - get;
 - save;
 - remove;
 - clear.
+
+
+Eight proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` with the {storage: nameOfTheMethodHere}):
+
+- getFromSessionStorage;
+- getFromLocalStorage;
+
+- saveInSessionStorage;
+- saveInLocalStorage;
+
+- removeFromSessionStorage;
+- removeLocalSessionStorage;
+
+- clearSessionStorage;
+- clearLocalStorage;
 
 And two configurable properties (provider):
 
@@ -121,6 +150,8 @@ It also checks the existance of the property ```expiration```, if it exists, it'
         console.log(_fromSessionExpiration); // displays the object saved previously, not a string
 
         // 11 seconds later...
+
+        _fromSessionExpiration = $xtorage.get("someOtherKeyHereExpiration", {storage: "sessionStorage"});
 
         console.log(_fromSessionExpiration); // null
       }]);
@@ -262,6 +293,8 @@ Expiring something saved to the storage is piece of cake.
 
             // 11 seconds later
 
+            _fromStorage = $xtorage.get('key');
+
             console.log(_fromStorage); // null
         })
 ```
@@ -282,6 +315,8 @@ Expiring something saved to the storage is piece of cake.
 
             // 11 seconds later
 
+            _fromStorage = $xtorage.get('key');
+
             console.log(_fromStorage); // null
         })
 ```
@@ -290,8 +325,10 @@ Expiring something saved to the storage is piece of cake.
 # configurable
 
 Defaults:
+
 - Storage is ```localStorage```;
 - Expiration is ```infinity```;
+
 
 Configuring:
 
@@ -319,6 +356,7 @@ Configuring:
 ```
 
 So, now to save in the localStorage you'll have the inform the options param:
+
 
 ```javascript
 
