@@ -840,4 +840,128 @@ describe('ng-xtorage', function()
             })
         })
     })
+
+    describe('proxies', function()
+    {
+        var _calledWithSessionStorage = {storage: 'sessionStorage'};
+        var _calledWithLocalStorage = {storage: 'localStorage'};
+
+        beforeEach(function()
+        {
+            spyOn(_xtorage, 'get').and.callFake(angular.noop);
+            spyOn(_xtorage, 'save').and.callFake(angular.noop);
+            spyOn(_xtorage, 'remove').and.callFake(angular.noop);
+            spyOn(_xtorage, 'clear').and.callFake(angular.noop);
+        })
+
+        describe('getFrom[Session|Local]Storage', function()
+        {
+            describe('sessionStorage', function()
+            {
+                it('should call the $xtorage.get passing the storage as sessionStorage', function()
+                {
+                    var _key = ['a', 'b'];
+
+                    _xtorage.getFromSessionStorage(_key);
+
+                    expect(_xtorage.get).toHaveBeenCalledWith(_key, _calledWithSessionStorage);
+                })
+            })
+
+            describe('localStorage', function()
+            {
+                it('should call the $xtorage.get passing the storage as localStorage', function()
+                {
+                    var _key = 'a';
+
+                    _xtorage.getFromLocalStorage(_key);
+
+                    expect(_xtorage.get).toHaveBeenCalledWith(_key, _calledWithLocalStorage);
+                })
+            })
+        })
+
+        describe('removeFrom[Session|Local]Storage', function()
+        {
+            describe('sessionStorage', function()
+            {
+                it('should call the $xtorage.remove passing the storage as the sessionStorage', function()
+                {
+                    var _key = 'ahjsakjs';
+
+                    _xtorage.removeFromSessionStorage(_key);
+
+                    expect(_xtorage.remove).toHaveBeenCalledWith(_key, _calledWithSessionStorage);
+                })
+            })
+
+            describe('localStorage', function()
+            {
+                it('should call the $xtorage.remove passing the storage as the sessionStorage', function()
+                {
+                    var _key = 'ahjsakjs';
+
+                    _xtorage.removeFromLocalStorage(_key);
+
+                    expect(_xtorage.remove).toHaveBeenCalledWith(_key, _calledWithLocalStorage);
+                })
+            })
+        })
+
+        describe('saveIn[Session|Local]Storage', function()
+        {
+            describe('sessionStorage', function()
+            {
+                it('should call the $xtorage.save passing the storage as the sessionStorage', function()
+                {
+                    var _key = 'ahjsakjs';
+                    var _info = ['a', true, 1]
+
+                    _xtorage.saveInSessionStorage(_key, _info);
+
+                    expect(_xtorage.save).toHaveBeenCalledWith(_key, _info, _calledWithSessionStorage);
+                })
+            })
+
+            describe('localStorage', function()
+            {
+                it('should call the $xtorage.save passing the storage as the localStorage', function()
+                {
+                    var _key = 'ahjsakjs';
+                    var _info = ['a', true, 1]
+
+                    _xtorage.saveInLocalStorage(_key, _info);
+
+                    expect(_xtorage.save).toHaveBeenCalledWith(_key, _info, _calledWithLocalStorage);
+                })
+            })
+        })
+
+        describe('clear[Session|Local]Storage', function()
+        {
+            describe('sessionStorage', function()
+            {
+                it('should call the $xtorage.save passing the storage as sessionStorage', function()
+                {
+                    var _key = 'ahjsakjs';
+
+                    _xtorage.clearSessionStorage(_key);
+
+                    expect(_xtorage.clear).toHaveBeenCalledWith(_key, _calledWithSessionStorage);
+                })
+            })
+
+            describe('localStorage', function()
+            {
+                it('should call the $xtorage.save passing the storage as localStorage', function()
+                {
+                    var _key = 'ahjsakjs';
+
+                    _xtorage.clearLocalStorage(_key);
+
+                    expect(_xtorage.clear).toHaveBeenCalledWith(_key, _calledWithLocalStorage);
+                })
+            })
+        })
+    })
 })

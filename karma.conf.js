@@ -22,8 +22,7 @@ var _karma = function(config)
 
       'ng-xtorage.js',
 
-      'ng-xtorage_test.js',
-      'ng-xtorage-expiration_test.js'
+      '*_test.js'
     ],
 
 
@@ -69,7 +68,7 @@ var _karma = function(config)
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS', 'Chrome', 'IE', /*'Opera',*/, 'Safari', 'Firefox', 'ChromeCanary'],
+    browsers: ['PhantomJS', 'Chrome', 'IE', /*'Opera',*/, 'Safari', 'Firefox', 'FirefoxNightly', 'ChromeCanary'],
 
 
     // Continuous Integration mode

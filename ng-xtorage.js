@@ -1,4 +1,4 @@
-(function()
+;(function()
 {
     "use strict";
 
@@ -9,8 +9,10 @@
             var self = this;
 
             var INFINITY = 'infinity';
+            var SESSION_STORAGE = 'sessionStorage';
+            var LOCAL_STORAGE = 'localStorage';
 
-            self.storage = 'localStorage';
+            self.storage = LOCAL_STORAGE;
             self.storageExpiration = INFINITY;
 
             this.$get = ['$window', '$timeout', function($window, $timeout)
@@ -146,14 +148,87 @@
                 };
 
 
-                /*        API          */
+
+                /*          PROXIES           */
+
+                var _getFromSessionStorageProxy = function(key)
+                {
+                    return this.get(key, {storage: SESSION_STORAGE});
+                }
+
+                var _getFromLocalStorageProxy = function(key)
+                {
+                    return this.get(key, {storage: LOCAL_STORAGE});
+                }
+
+                var _saveInSessionStorageProxy = function(key, info)
+                {
+                    this.save(key, info, {storage: SESSION_STORAGE});
+                }
+
+                var _saveInLocalStorageProxy = function(key, info)
+                {
+                    this.save(key, info, {storage: LOCAL_STORAGE});
+                }
+
+                var _removeFromSessionStorageProxy = function(key)
+                {
+                    this.remove(key, {storage: SESSION_STORAGE});
+                }
+
+                var _removeFromLocalStorageProxy = function(key)
+                {
+                    this.remove(key, {storage: LOCAL_STORAGE});
+                }
+
+                var _clearSessionStorageProxy = function(key)
+                {
+                    this.clear(key, {storage: SESSION_STORAGE});
+                }
+
+                var _clearLocalStorageProxy = function(key)
+                {
+                    this.clear(key, {storage: LOCAL_STORAGE});
+                }
+
+
+
+
+                /*          API          */
 
                 return {
                     get: _getFromStorage,
                     save: _saveInStorage,
                     remove: _removeFromStorage,
-                    clear: _clearStorage
+                    clear: _clearStorage,
+
+                    getFromSessionStorage: _getFromSessionStorageProxy,
+                    getFromLocalStorage: _getFromLocalStorageProxy,
+
+                    saveInSessionStorage: _saveInSessionStorageProxy,
+                    saveInLocalStorage: _saveInLocalStorageProxy,
+
+                    removeFromSessionStorage: _removeFromSessionStorageProxy,
+                    removeFromLocalStorage: _removeFromLocalStorageProxy,
+
+                    clearSessionStorage: _clearSessionStorageProxy,
+                    clearLocalStorage: _clearLocalStorageProxy
                 };
             }];
-        });
+        })
+        .directive('$xtorageFormCache', ['$xtorage', function($xtorage)
+        {
+            var _link = function(scope, element, attrs)
+            {
+                var _watchThisProp = 'infoToBeSaved';
+                var _key = attrs.keyForStorage;
+
+                attrs.$observe(_watchThisProp, function(info)
+                {
+                    $xtorage.save(_key, info);
+                });
+            };
+
+            return _link;
+        }])
 }())
