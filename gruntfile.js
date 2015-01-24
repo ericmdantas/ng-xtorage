@@ -43,6 +43,15 @@ var _grunt = function(grunt)
                 browsers: ['PhantomJS'],
                 singleRun: true
             }
+        },
+
+        coveralls:
+        {
+            options:
+            {
+                debug: true,
+                coverageDir: 'coverage'
+            }
         }
 
     })
