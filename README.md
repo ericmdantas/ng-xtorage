@@ -271,6 +271,43 @@ All the methods above will work when having arrays as parameters too.
     console.log(_info); // null
   ```
 
+# form
+
+Saving the content of a form that an user is typing is very easy too!
+
+No need for an extra directive to do that:
+
+```javascript
+
+   angular
+        .module('myAwesomeModule', ['emd.ng-xtorage'])
+        .controller('MyAwesomeController', function($scope)
+        {
+            $scope.model = {};
+        })
+```
+
+```html
+
+    <div ng-controller="MyAwesomeController">
+
+        <form name="MyFormNameHere"
+              $xtorage-form-cache
+                  info-to-be-saved="{{model}}"
+                  storage-key="KeyGoesHere">
+                    <input type="text" ng-model="model.name" />
+                    <input type="text" ng-model="model.age" />
+                    <input type="checkbox" ng-model="model.somethingBoolean" />
+        </form>
+    </div>
+```
+
+
+What that'll do is: **As soon as the model changes, it'll be saved to the storage.**
+
+Where, the model is the ```{{model}}```, and the key is ```KeyGoesHere```.
+
+
 # expiration
 
 Expiring something saved to the storage is piece of cake.
