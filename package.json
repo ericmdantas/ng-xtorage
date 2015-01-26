@@ -1,6 +1,6 @@
 {
   "name": "ng-xtorage",
-  "version": "0.0.1",
+  "version": "0.0.10",
   "description": "Web Storage made simple.",
   "main": "ng-xtorage.js",
   "dependencies": {},

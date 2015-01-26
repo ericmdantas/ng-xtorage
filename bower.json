@@ -1,8 +1,8 @@
 {
   "name": "ng-xtorage",
   "main": "ng-xtorage.js",
-  "version": "0.0.9",
-  "homepage": "https://github.com/ericmdantas/angular-xtorage",
+  "version": "0.0.10",
+  "homepage": "https://github.com/ericmdantas/ng-xtorage",
   "authors": ["ericmdantas <ericdantas0@hotmail.com>"],
   "description": "Web Storage made simple and more powerful (sessionStorage & localStorage)",
   "keywords": [
