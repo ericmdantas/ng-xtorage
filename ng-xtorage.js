@@ -215,20 +215,5 @@
                     clearLocalStorage: _clearLocalStorageProxy
                 };
             }];
-        })
-        .directive('$xtorageFormCache', ['$xtorage', function($xtorage)
-        {
-            var _link = function(scope, element, attrs)
-            {
-                var _watchThisProp = 'infoToBeSaved';
-                var _key = attrs.storageKey;
-
-                attrs.$observe(_watchThisProp, function(info)
-                {
-                    $xtorage.save(_key, info);
-                });
-            };
-
-            return _link;
-        }])
+        });
 }())
