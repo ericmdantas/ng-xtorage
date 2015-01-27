@@ -5,15 +5,6 @@
 
 Web Storage made simple and more powerful (sessionStorage & localStorage).
 
-Forget about stringifying and parsing JSON.
-
-Forget about loops to save/retrieve stuff in and from the Web Storage.
-
-Forget about depeding on your user to 'expire' your Web Storage.
-
-Forget about manually saving that big form to the storage.
-
-It's all in your hands now.
 
 # installation
 
