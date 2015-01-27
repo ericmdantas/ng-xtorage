@@ -25,22 +25,16 @@ This angular service is meant to be a **tiny**, yet **powerful** and **easy-to-u
 
 It saves, retrieves and removes info from the web storage respecting not only the type of info being passed around, but also its life time.
 
-For example:
-- You couldn't save, retrieve and remove things using arrays, right?
-- You also couldn't make info from the Web Storage expire, right?
-- Saving a form to the storage, you had to do it manually, right?
-- Well, now you can! ```$xtorage``` got you covered.
 
+[Simple API](#how)
 
-[Make the Web Storage simpler!](#how)
+[Powerful extensions](#arrays)
 
-[Make it more powerful!](#arrays)
+[Expiration](#expiration)
 
-[You choose who lives and who dies! >:D](#expiration)
+[Form cache](#form)
 
-[Cache that big form, just in case](#form)
-
-[Make it your own!](#configurable)
+[Configurable](#configurable)
 
 
 # why?
@@ -50,8 +44,6 @@ Stringify this, parse that.. loop through this.. enough is enough.
 
 
 # more power
-
-Usually, when working with localStorage and sessionStorage, no matter what you have, you'll have to save as a string and you'll always get back a string. Which sucks, because all the parsing is up to us.
 
 When using ```$xtorage```, you will save something and you'll get that thing back. It doesn't matter if it's a number, object, string or even a boolean! No parsing needed.
 
