@@ -205,9 +205,7 @@ And two configurable properties (provider):
 
 All the methods above will work when having arrays as parameters too.
 
-### usage:
-
-#### saving
+### saving
 
   ```javascript
   
@@ -217,7 +215,7 @@ All the methods above will work when having arrays as parameters too.
     $xtorage.save(_keys, _info); // will save info in the localStorage
   ```
   
-#### retrieving
+### retrieving
 
   ```javascript
   
@@ -228,7 +226,7 @@ All the methods above will work when having arrays as parameters too.
     console.log(_info); // [{hey: 'I\'m an object!'}, 'and I\'m a string :D', 42]
   ```
   
-#### removing
+### removing
 
   ```javascript
   
@@ -240,6 +238,7 @@ All the methods above will work when having arrays as parameters too.
     
     console.log(_info); // null
   ```
+
 
 # form
 
