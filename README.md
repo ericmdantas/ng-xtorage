@@ -8,7 +8,7 @@ Web Storage made simple and more powerful (sessionStorage & localStorage).
 
 # installation
 
-```bower install ng-xtorage --save```
+```$ bower install ng-xtorage --save```
 
 # what?
 
@@ -17,26 +17,10 @@ This angular service is meant to be a **tiny**, yet **powerful** and **easy-to-u
 It saves, retrieves and removes info from the web storage respecting not only the type of info being passed around, but also its life time.
 
 
-[Simple API](#how)
-
-[Powerful extensions](#arrays)
-
-[Expiration](#expiration)
-
-[Form cache](#form)
-
-[Configurable](#configurable)
-
-
 # why?
 
 Because it sucks to keep doing the same workarounds every project to: save, retrieve, remove and expire info from the web storage.
 Stringify this, parse that.. loop through this.. enough is enough.
-
-
-# more power
-
-When using ```$xtorage```, you will save something and you'll get that thing back. It doesn't matter if it's a number, object, string or even a boolean! No parsing needed.
 
 
 # how?
@@ -71,14 +55,14 @@ And two configurable properties (provider):
 - storageExpiration. ```defaults to 'infinity', can be changed to any number (milliseconds)```
 
 
-## get
+## $xtorage.get
 
-```$xtorage.get``` might take two parameters, but only the first one is obligatory - the second one is optional.  
 
-The first parameter is the key, as in ```window.localStorage.getItem(**keyGoesHere**)```;
+### arguments:
 
-The second parameter is the options object.
-It checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
+1. key **(String)**
+2. options **(Object: storage - optional)**
+
 
 #### usage:
 
@@ -96,17 +80,14 @@ It checks the existance of the property ```storage```, if it exists, it'll take 
   ```    
   
 
-## save
+## $xtorage.save
 
-```$xtorage.save``` might take three parameters, but only the first two are obligatory - the third one is optional.
 
-The first parameter is the key, as in ```window.localStorage.setItem(**keyGoesHere**)```;
+### arguments:
 
-The second parameter is the info itself. It might be a string like in ```$xtorage.save('key', 'info')```, an object like in ```$xtorage.save('key', {info: 'here'})``` or even an number ```$xtorage.save('key', 42)```.
-
-The third parameter is the options object.
-It checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
-It also checks the existance of the property ```expiration```, if it exists, it'll take its value **(must be a number/milliseconds)** and register the expiration of the saved info;
+1. key **(String)**
+2. info to be saved **(any type)**
+3. options **(Object: storage and expiration  - optional)**
 
 #### usage:
 
@@ -137,13 +118,13 @@ It also checks the existance of the property ```expiration```, if it exists, it'
       }]);
   ```    
 
-## remove
+## $xtorage.remove
 
-```$xtorage.remove``` might take two parameters, but only the first one is obligatory - the second one is optional.
 
-The first parameter is the key, as in ```window.localStorage.removeItem(**keyGoesHere**)```;
+### arguments
 
-The second parameter is the options object. For now it checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
+1. key **(String)**
+2. options **(Object: storage - optional)**
 
 #### usage:
 
@@ -174,11 +155,15 @@ The second parameter is the options object. For now it checks the existance of t
       }]);
   ```    
 
-## clear
+## $xtorage.clear
 
-```$xtorage.clear``` might take one parameter and it's optional.
 
-The only parameter is the options object. For now it checks the existance of the property ```storage```, if it exists, it'll take its value and make it the object to use as storage (sessionStorage and localStorage are the ones available);
+### arguments:
+
+
+1. key **(String)**
+2. options **(Object: storage - optional)**
+argu
 
 #### usage:
 
