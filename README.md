@@ -168,8 +168,8 @@ And two configurable properties (provider):
 ### where:
 
 
-- key is a **String**
-- options is an optional **Object: storage**
+- ```key``` is a **String**
+- ```options``` is an optional **Object: storage**
 
 
 #### usage:
