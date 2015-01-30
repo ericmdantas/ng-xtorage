@@ -62,8 +62,8 @@ And two configurable properties (provider):
 
 ### where:
 
-- key is a **String**
-- options is an optional object **Object: storage**
+- ```key``` is a **String**
+- ```options``` is an optional **Object: storage**
 
 
 #### usage:
@@ -88,9 +88,9 @@ And two configurable properties (provider):
 
 ### where:
 
-- key is a **String**
-- infoToBeSaved **(any type)**
-- options is an optional **Object: storage and expiration  - optional**
+- ```key``` is a **String**
+- ```infoToBeSaved``` can be **any type**
+- ```options``` is an optional **Object: storage and expiration**
 
 #### usage:
 
@@ -126,10 +126,10 @@ And two configurable properties (provider):
 ## $xtorage.remove(key, options)
 
 
-### arguments
+### where
 
-- key is a **String**
-- options is an optional object **Object: storage**
+- ```key``` is a **String**
+- ```options``` is an optional object **Object: storage**
 
 #### usage:
 
@@ -170,7 +170,7 @@ And two configurable properties (provider):
 
 - key is a **String**
 - options is an optional **Object: storage**
-argu
+
 
 #### usage:
 
