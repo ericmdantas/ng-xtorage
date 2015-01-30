@@ -107,7 +107,7 @@ And two configurable properties (provider):
         
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        var _fromSessionExpiration = $xtorage.get("someOtherKeyHereExpiration", {storage: "sessionStorage"});
+        var _fromSessionExpiration = $xtorage.get("someOtherKeyHereExpiration", {storage: "sessionStorage", expiration: 10000}); // saves in sessionStorage, will expire in 10 seconds});
         
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
