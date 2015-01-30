@@ -10,6 +10,7 @@ Web Storage made simple and more powerful (sessionStorage & localStorage).
 
 ```$ bower install ng-xtorage --save```
 
+
 # what?
 
 This angular service is meant to be a **tiny**, yet **powerful** and **easy-to-use** API that interacts with the web storage.
@@ -44,10 +45,11 @@ Eight proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` wit
 - saveInLocalStorage;
 
 - removeFromSessionStorage;
-- removeLocalSessionStorage;
+- removeFromLocalStorage;
 
 - clearSessionStorage;
 - clearLocalStorage;
+
 
 And two configurable properties (provider):
 
@@ -55,13 +57,13 @@ And two configurable properties (provider):
 - storageExpiration. ```defaults to 'infinity', can be changed to any number (milliseconds)```
 
 
-## $xtorage.get
+## $xtorage.get(key, options)
 
 
-### arguments:
+### where:
 
-1. key **(String)**
-2. options **(Object: storage - optional)**
+- key is a **String**
+- options is an optional object **Object: storage**
 
 
 #### usage:
@@ -79,15 +81,16 @@ And two configurable properties (provider):
       }]);
   ```    
   
+  
 
-## $xtorage.save
+## $xtorage.save(key, infoToBeSaved, options)
 
 
-### arguments:
+### where:
 
-1. key **(String)**
-2. info to be saved **(any type)**
-3. options **(Object: storage and expiration  - optional)**
+- key is a **String**
+- infoToBeSaved **(any type)**
+- options is an optional **Object: storage and expiration  - optional**
 
 #### usage:
 
@@ -118,13 +121,15 @@ And two configurable properties (provider):
       }]);
   ```    
 
-## $xtorage.remove
+
+
+## $xtorage.remove(key, options)
 
 
 ### arguments
 
-1. key **(String)**
-2. options **(Object: storage - optional)**
+- key is a **String**
+- options is an optional object **Object: storage**
 
 #### usage:
 
@@ -155,14 +160,16 @@ And two configurable properties (provider):
       }]);
   ```    
 
-## $xtorage.clear
 
 
-### arguments:
+## $xtorage.clear(key, options)
 
 
-1. key **(String)**
-2. options **(Object: storage - optional)**
+### where:
+
+
+- key is a **String**
+- options is an optional **Object: storage**
 argu
 
 #### usage:
