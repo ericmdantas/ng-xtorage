@@ -11,11 +11,13 @@
             var INFINITY = 'infinity';
             var SESSION_STORAGE = 'sessionStorage';
             var LOCAL_STORAGE = 'localStorage';
+            var EXPIRATION_KEY = '$xpiration';
+            var CHECK_EXPIRATION = 1000 * 60;
 
             self.storage = LOCAL_STORAGE;
             self.storageExpiration = INFINITY;
 
-            this.$get = ['$window', '$timeout', function($window, $timeout)
+            this.$get = ['$window', '$interval', function($window, $interval)
             {
                 var DEFAULT_STORAGE = self.storage;
                 var DEFAULT_EXPIRATION = self.storageExpiration;
@@ -69,12 +71,41 @@
                     return _options.expiration || DEFAULT_EXPIRATION;
                 }
 
-                var _registerExpiration = function(key, storage, expiration)
+                var _pushExpirationToTheStorage = function(expObject)
                 {
-                    $timeout(function()
+                    var _fromLocalStorage = this.getFromLocalStorage(EXPIRATION_KEY) || [];
+                    _fromLocalStorage.push(expObject)
+
+                    var _toLocalStorage = angular.copy(_fromLocalStorage);
+
+                    _save(EXPIRATION_KEY, _toLocalStorage, 'localStorage');
+                }
+
+                var _registerExpiration = function (key, expiration)
+                {
+                    var _xtorage = this;
+                    var _expirationObject = {};
+
+                    _expirationObject.key = key;
+                    _expirationObject.expire = $window.Date.now() + expiration;
+
+                    _pushExpirationToTheStorage.call(_xtorage, _expirationObject);
+
+                    var _intervalClear = $interval(function()
                     {
-                        $window[storage].removeItem(key);
-                    }, expiration);
+
+                        _xtorage.removeFromLocalStorage(key);
+                        _xtorage.removeFromSessionStorage(key);
+
+                        $interval.cancel(_intervalClear);
+
+                    }, CHECK_EXPIRATION);
+                }
+
+                var _save = function(key, info, storage)
+                {
+                    angular.isObject(info) ? $window[storage].setItem(key, angular.toJson(info))
+                                           : $window[storage].setItem(key, info);
                 }
 
                 var _saveInStorage = function (key, info, options)
@@ -86,20 +117,18 @@
                     {
                         for (var i = 0; i < key.length; i++)
                         {
-                            angular.isObject(info[i]) ? $window[_storage].setItem(key[i], angular.toJson(info[i]))
-                                                      : $window[_storage].setItem(key[i], info[i]);
+                            _save(key[i], info[i], _storage);
 
-                            if (DEFAULT_EXPIRATION !== INFINITY)
-                                _registerExpiration(key[i], _storage, _expiration);
+                            if (_expiration !== INFINITY)
+                                _registerExpiration.call(this, key[i], _expiration);
                         }
                     }
                     else
                     {
-                        angular.isObject(info) ? $window[_storage].setItem(key, angular.toJson(info))
-                                               : $window[_storage].setItem(key, info);
+                        _save(key, info, _storage);
 
-                        if (DEFAULT_EXPIRATION !== INFINITY)
-                            _registerExpiration(key, _storage, _expiration);
+                        if (_expiration !== INFINITY)
+                            _registerExpiration.call(this, key, _expiration);
                     }
                 };
 
