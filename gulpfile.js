@@ -28,7 +28,7 @@ gulp.task('unit_test', function(done)
     }, done);
 })
 
-gulp.task('unit_coverage', ['unit_test'], function()
+gulp.task('coverage', ['unit_test'], function()
 {
     gulp
         .src(_coverage)
