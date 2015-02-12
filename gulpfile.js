@@ -13,10 +13,6 @@ var _ngXtorageMin = 'ng-xtorage.min.js';
 gulp.task('build', ['unit_test'], function()
 {
     gulp
-        .src(_coverage)
-        .pipe(coveralls());
-
-    gulp
         .src(_ngXtorage)
         .pipe(uglify())
         .pipe(rename(_ngXtorageMin))
@@ -30,4 +26,11 @@ gulp.task('unit_test', function(done)
         singleRun: true,
         browsers: ['PhantomJS']
     }, done);
+})
+
+gulp.task('unit_coverage', ['unit_test'], function()
+{
+    gulp
+        .src(_coverage)
+        .pipe(coveralls());
 })
