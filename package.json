@@ -21,7 +21,7 @@
     "karma-safari-launcher": "^0.1.1"
   },
   "scripts": {
-    "test": "gulp unit_test"
+    "test": "gulp coverage"
   },
   "repository": {
     "type": "git",
