@@ -20,7 +20,7 @@ var _karma = function(config)
 
       'bower_components/angular-mocks/angular-mocks.js',
 
-      'ng-xtorage.min.js',
+      'ng-xtorage.js',
 
       '*_test.js'
     ],
