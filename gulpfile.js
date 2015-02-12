@@ -6,7 +6,7 @@ var coveralls = require('gulp-coveralls');
 var rename = require('gulp-rename');
 var karma = require('karma').server;
 
-var _coverage = './coverage/**/lcov.info';
+var _coverage = 'coverage/**/lcov.info';
 var _ngXtorage = 'ng-xtorage.js';
 var _ngXtorageMin = 'ng-xtorage.min.js';
 
