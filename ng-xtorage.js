@@ -8,42 +8,14 @@
         {
             var self = this;
 
-            var INFINITY = 'infinity';
             var SESSION_STORAGE = 'sessionStorage';
             var LOCAL_STORAGE = 'localStorage';
-            var EXPIRATION_KEY = '$xpiration';
-            var CHECK_EXPIRATION = 1000 * 60;
 
             self.storage = LOCAL_STORAGE;
-            self.storageExpiration = INFINITY;
 
-            this.$get = ['$window', '$xpirationChecker', '$interval', function($window, $xpirationChecker, $interval)
+            this.$get = ['$window', function($window)
             {
                 var DEFAULT_STORAGE = self.storage;
-                var DEFAULT_EXPIRATION = self.storageExpiration;
-
-                var _initInterval = function()
-                {
-                    var that = this;
-
-                    var _intervalId = $interval(function()
-                    {
-                        that
-                            .getFromLocalStorage(EXPIRATION_KEY)
-                            .filter(function(toExpire)
-                            {
-                                return $xpirationChecker.timeToExpire(toExpire);
-                            })
-                            .forEach(function(toExpire)
-                            {
-                                that.removeFromLocalStorage(toExpire.key);
-                                that.removeFromSessionStorage(toExpire.key);
-
-                                $interval.cancel(_intervalId);
-                            })
-
-                    }, CHECK_EXPIRATION);
-                };
 
                 var _tryParseToObject = function (str, isNumber)
                 {
@@ -87,36 +59,6 @@
                     return _options.storage || DEFAULT_STORAGE;
                 };
 
-                var _getExpiration = function(options)
-                {
-                    var _options = angular.isObject(options) ? options : {};
-
-                    return _options.expiration || DEFAULT_EXPIRATION;
-                }
-
-                var _pushExpirationToTheStorage = function(expObject)
-                {
-                    var _fromLocalStorage = this.getFromLocalStorage(EXPIRATION_KEY) || [];
-                    _fromLocalStorage.push(expObject);
-
-                    var _toLocalStorage = _fromLocalStorage;
-
-                    _save(EXPIRATION_KEY, _toLocalStorage, 'localStorage');
-                }
-
-                var _registerExpiration = function(key, expiration)
-                {
-                    var _xtorage = this;
-                    var _expirationObject = {};
-
-                    _expirationObject.key = key;
-                    _expirationObject.expire = $window.Date.now() + expiration;
-
-                    _pushExpirationToTheStorage.call(_xtorage, _expirationObject);
-
-                    _initInterval.call(this);
-                }
-
                 var _save = function(key, info, storage)
                 {
                     angular.isObject(info) ? $window[storage].setItem(key, angular.toJson(info))
@@ -126,24 +68,17 @@
                 var _saveInStorage = function (key, info, options)
                 {
                     var _storage = _getStorageType(options);
-                    var _expiration = _getExpiration(options);
 
                     if (_isArrayFilled(key))
                     {
                         for (var i = 0; i < key.length; i++)
                         {
                             _save(key[i], info[i], _storage);
-
-                            if (_expiration !== INFINITY)
-                                _registerExpiration.call(this, key[i], _expiration);
                         }
                     }
                     else
                     {
                         _save(key, info, _storage);
-
-                        if (_expiration !== INFINITY)
-                            _registerExpiration.call(this, key, _expiration);
                     }
                 };
 
@@ -257,14 +192,5 @@
                     clearLocalStorage: _clearLocalStorageProxy
                 };
             }];
-        })
-        .service('$xpirationChecker', ['$window', function($window)
-        {
-            var _timeToExpire = function(toExpire)
-            {
-                return $window.Date.now() >= toExpire.expire;
-            }
-
-            this.timeToExpire = _timeToExpire;
-        }]);
+        });
 }())

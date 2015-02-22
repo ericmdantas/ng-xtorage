@@ -4,7 +4,6 @@ describe('ng-xtorage', function()
 {
     var _xtorage, _windowMock, _xtorageProvider, _timeoutMock;
     var MAX_FLUSH = 1000;
-    var DEFAULT_XPIRATION = 'infinity';
 
     beforeEach(module('emd.ng-xtorage', function($xtorageProvider)
     {
@@ -41,7 +40,6 @@ describe('ng-xtorage', function()
         {
             expect(_xtorageProvider).toBeDefined();
             expect(_xtorageProvider.storage).toEqual('localStorage');
-            expect(_xtorageProvider.storageExpiration).toEqual(DEFAULT_XPIRATION);
         })
     })
 

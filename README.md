@@ -20,7 +20,7 @@ It saves, retrieves and removes info from the web storage respecting not only th
 
 # why?
 
-Because it sucks to keep doing the same workarounds every project to: save, retrieve, remove and expire info from the web storage.
+Because it sucks to keep doing the same workarounds every project to: save, retrieve and remove info from the web storage.
 Stringify this, parse that.. loop through this.. enough is enough.
 
 
@@ -51,10 +51,9 @@ Eight proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` wit
 - clearLocalStorage;
 
 
-And two configurable properties (provider):
+And one configurable property (provider):
 
 - storage; ```defaults to 'localStorage', can be changed in config time to 'sessionStorage'```
-- storageExpiration. ```defaults to 'infinity', can be changed to any number (milliseconds)```
 
 
 ## $xtorage.get(key, options)
@@ -90,7 +89,7 @@ And two configurable properties (provider):
 
 - ```key``` is a **String**
 - ```infoToBeSaved``` can be **any type**
-- ```options``` is an optional **Object: storage and expiration**
+- ```options``` is an optional object **Object: storage**
 
 #### usage:
 
@@ -103,21 +102,12 @@ And two configurable properties (provider):
       
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
-        $xtorage.save("someOtherKeyHereExpiration", _info, {storage: "sessionStorage", expiration: 10000}); // saves in sessionStorage, will expire in 10 seconds
-        
+
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        var _fromSessionExpiration = $xtorage.get("someOtherKeyHereExpiration", {storage: "sessionStorage", expiration: 10000}); // saves in sessionStorage, will expire in 10 seconds});
         
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
-        console.log(_fromSessionExpiration); // displays the object saved previously, not a string
-
-        // 11 seconds later...
-
-        _fromSessionExpiration = $xtorage.get("someOtherKeyHereExpiration", {storage: "sessionStorage"});
-
-        console.log(_fromSessionExpiration); // null
       }]);
   ```    
 
@@ -245,65 +235,11 @@ All the methods above will work when having arrays as parameters too.
 [Moved to its own module](https://github.com/ericmdantas/ng-xtorage-form)
 
 
-# expiration
-
-Expiring something saved to the storage is piece of cake.
-
-### configuring at config time
-
-```javascript
-
-    angular
-        .module('myAwesomeModule', ['emd.ng-xtorage'])
-        .config(['$xtorageProvider', function($xtorageProvider)
-        {
-            $xtorageProvider.storageExpiration = 10000; // will expire everything saved to the store in 10 seconds
-        }])
-        .run(function($xtorage)
-        {
-            $xtorage.save('key', 'info');
-
-            var _fromStorage = $xtorage.get('key');
-
-            console.log(_fromStorage); // info
-
-            // 11 seconds later
-
-            _fromStorage = $xtorage.get('key');
-
-            console.log(_fromStorage); // null
-        })
-```
-
-### on every save
-
-```javascript
-
-    angular
-        .module('myAwesomeModule', ['emd.ng-xtorage'])
-        .run(function($xtorage)
-        {
-            $xtorage.save('key', 'info', {expiration: 10000});
-
-            var _fromStorage = $xtorage.get('key');
-
-            console.log(_fromStorage); // info
-
-            // 11 seconds later
-
-            _fromStorage = $xtorage.get('key');
-
-            console.log(_fromStorage); // null
-        })
-```
-
-
 # configurable
 
 Defaults:
 
 - Storage is ```localStorage```;
-- Expiration is ```infinity```;
 
 
 Configuring:
@@ -315,7 +251,6 @@ Configuring:
     .config(['$xtorageProvider', function($xtorageProvider)
     {
       $xtorageProvider.storage = 'sessionStorage'; // defaults to localStorage
-      $xtorageProvider.storageExpiration = 10000; // defaults to 'infinity'
     }])
     .run(['$xtorage', function($xtorage)
     {
@@ -344,7 +279,7 @@ So, now to save in the localStorage you'll have the inform the options param:
     }])
     .run(['$xtorage', function($xtorage)
     {
-        $xtorage.save('hey', 'savings will go to localStorage now, awesome, right?', {storage: 'localStorage'); //saves in the localStorage, and will expire in 10 seconds :D
+        $xtorage.save('hey', 'savings will go to localStorage now, awesome, right?', {storage: 'localStorage'); //saves in the localStorage
 
         var _fromSession = $xtorage.get('hey'); //get from the localStorage
 
