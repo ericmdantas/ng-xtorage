@@ -1,8 +1,8 @@
-;(function()
+;(function(ng)
 {
     "use strict";
 
-    angular
+    ng
         .module('emd.ng-xtorage', [])
         .provider('$xtorage', function()
         {
@@ -10,6 +10,9 @@
 
             var SESSION_STORAGE = 'sessionStorage';
             var LOCAL_STORAGE = 'localStorage';
+
+            var SESSION_STORAGE_OBJECT = {storage: SESSION_STORAGE};
+            var LOCAL_STORAGE_OBJECT = {storage: LOCAL_STORAGE};
 
             self.storage = LOCAL_STORAGE;
 
@@ -23,7 +26,7 @@
 
                     try
                     {
-                        _info = angular.fromJson(str);
+                        _info = ng.fromJson(str);
                     }
                     catch(e)
                     {
@@ -37,7 +40,7 @@
                 {
                     var NUMBER_PATTERN = /[0-9]/;
 
-                    if (!angular.isString(str) || !str.length)
+                    if (!ng.isString(str) || !str.length)
                         return null;
 
                     for (var i = 0; i < str.length; i++)
@@ -50,19 +53,19 @@
                 }
 
                 var _isArrayFilled = function (arr) {
-                    return angular.isArray(arr) && arr.length;
+                    return ng.isArray(arr) && arr.length;
                 }
 
                 var _getStorageType = function (options) {
-                    var _options = angular.isObject(options) ? options : {};
+                    var _options = ng.isObject(options) ? options : {};
 
                     return _options.storage || DEFAULT_STORAGE;
                 };
 
                 var _save = function(key, info, storage)
                 {
-                    angular.isObject(info) ? $window[storage].setItem(key, angular.toJson(info))
-                                           : $window[storage].setItem(key, info);
+                    ng.isObject(info) ? $window[storage].setItem(key, ng.toJson(info))
+                                      : $window[storage].setItem(key, info);
                 }
 
                 var _saveInStorage = function (key, info, options)
@@ -93,7 +96,7 @@
                         {
                             var _arrayFromStorage = $window[_storage].getItem(key[i]);
 
-                            if (_arrayFromStorage) // only push the response if it's defined
+                            if (_arrayFromStorage) // only push the info from the storage if it's defined
                                 _info.push(_tryParseToObject(_arrayFromStorage));
                         }
 
@@ -132,42 +135,42 @@
 
                 var _getFromSessionStorageProxy = function(key)
                 {
-                    return this.get(key, {storage: SESSION_STORAGE});
+                    return this.get(key, SESSION_STORAGE_OBJECT);
                 }
 
                 var _getFromLocalStorageProxy = function(key)
                 {
-                    return this.get(key, {storage: LOCAL_STORAGE});
+                    return this.get(key, LOCAL_STORAGE_OBJECT);
                 }
 
                 var _saveInSessionStorageProxy = function(key, info)
                 {
-                    this.save(key, info, {storage: SESSION_STORAGE});
+                    this.save(key, info, SESSION_STORAGE_OBJECT);
                 }
 
                 var _saveInLocalStorageProxy = function(key, info)
                 {
-                    this.save(key, info, {storage: LOCAL_STORAGE});
+                    this.save(key, info, LOCAL_STORAGE_OBJECT);
                 }
 
                 var _removeFromSessionStorageProxy = function(key)
                 {
-                    this.remove(key, {storage: SESSION_STORAGE});
+                    this.remove(key, SESSION_STORAGE_OBJECT);
                 }
 
                 var _removeFromLocalStorageProxy = function(key)
                 {
-                    this.remove(key, {storage: LOCAL_STORAGE});
+                    this.remove(key, LOCAL_STORAGE_OBJECT);
                 }
 
                 var _clearSessionStorageProxy = function(key)
                 {
-                    this.clear(key, {storage: SESSION_STORAGE});
+                    this.clear(key, SESSION_STORAGE_OBJECT);
                 }
 
                 var _clearLocalStorageProxy = function(key)
                 {
-                    this.clear(key, {storage: LOCAL_STORAGE});
+                    this.clear(key, LOCAL_STORAGE_OBJECT);
                 }
 
 
@@ -193,4 +196,4 @@
                 };
             }];
         });
-}())
+}(angular))
