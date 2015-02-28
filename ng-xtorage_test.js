@@ -967,6 +967,17 @@ describe('ng-xtorage', function()
     {
         describe('localStorage', function()
         {
+            it('should push info into the array nothing in the storage', function()
+            {
+                var _newInfo = "b";
+                var _result = ["b"];
+                var _key = "k";
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
             it('should push info into the array - string', function()
             {
                 var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
@@ -1026,6 +1037,17 @@ describe('ng-xtorage', function()
 
         describe('sessionStorage', function()
         {
+            it('should push info into the array nothing in the storage', function()
+            {
+                var _newInfo = "b";
+                var _result = ["b"];
+                var _key = "k";
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
             it('should push info into the array - string', function()
             {
                 var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
@@ -1088,6 +1110,17 @@ describe('ng-xtorage', function()
     {
         describe('localStorage', function()
         {
+            it('should push info into the array nothing in the storage', function()
+            {
+                var _newInfo = "b";
+                var _result = ["b"];
+                var _key = "k";
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
             it('should unshift info into the array - string', function()
             {
                 var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
@@ -1147,6 +1180,17 @@ describe('ng-xtorage', function()
 
         describe('sessionStorage', function()
         {
+            it('should push info into the array nothing in the storage', function()
+            {
+                var _newInfo = "b";
+                var _result = ["b"];
+                var _key = "k";
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
             it('should unshift info into the array - string', function()
             {
                 var _infoAlreadyInTheStorage = [{a:1}, true, "a"];

@@ -72,7 +72,7 @@
                 {
                     var _storage = _getStorageType(options);
 
-                    var _infoFromStorage = this.get(key, {storage: _storage});
+                    var _infoFromStorage = this.get(key, {storage: _storage}) || [];
 
                     _infoFromStorage[method](info);
 
