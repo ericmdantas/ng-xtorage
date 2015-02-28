@@ -1,7 +1,7 @@
 {
   "name": "ng-xtorage",
   "main": "ng-xtorage.js",
-  "version": "0.0.10",
+  "version": "1.1.0",
   "homepage": "https://github.com/ericmdantas/ng-xtorage",
   "authors": ["ericmdantas <ericdantas0@hotmail.com>"],
   "description": "Web Storage made simple and more powerful (sessionStorage & localStorage)",
@@ -24,6 +24,7 @@
     "bower_components",
 	"coverage",
 	"grunfile.js",
+	"gulpfile.js",
 	"package.json",
 	"*.conf.js",
 	"*_test.js"

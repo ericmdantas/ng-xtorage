@@ -962,4 +962,460 @@ describe('ng-xtorage', function()
             })
         })
     })
+
+    describe('pushInto', function()
+    {
+        describe('localStorage', function()
+        {
+            it('should push info into the array - string', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = "b";
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - number', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = 42;
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - object', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = {a: {b: 42}};
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - array', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            it('should push info into the array - string', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = "b";
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - number', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = 42;
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - object', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = {a: {b: 42}};
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - array', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+        })
+    })
+
+    describe('unshiftInto', function()
+    {
+        describe('localStorage', function()
+        {
+            it('should unshift info into the array - string', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = "b";
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - number', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = 42;
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - object', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = {a: {b: 42}};
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - array', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            it('should unshift info into the array - string', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = "b";
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - number', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = 42;
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - object', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = {a: {b: 42}};
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - array', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+        })
+    })
+
+    describe('pushIntoProxies', function()
+    {
+        describe('localStorage', function ()
+        {
+            it('should call the right method', function()
+            {
+                var _key = "a";
+                var _info = "b";
+
+                spyOn(_xtorage, 'get').and.returnValue([]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.pushIntoLocalStorage(_key, _info);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, [_info], {storage: 'localStorage'});
+            })
+        })
+
+        describe('sessionStorage', function ()
+        {
+            it('should call the right method', function ()
+            {
+                var _key = "a";
+                var _info = "b";
+
+                spyOn(_xtorage, 'get').and.returnValue([]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.pushIntoSessionStorage(_key, _info);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, [_info], {storage: 'sessionStorage'});
+            })
+        })
+    })
+
+    describe('unshiftIntoProxies', function()
+    {
+        describe('localStorage', function ()
+        {
+            it('should call the right method', function()
+            {
+                var _key = "a";
+                var _info = "b";
+
+                spyOn(_xtorage, 'get').and.returnValue([]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.unshiftIntoLocalStorage(_key, _info);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, [_info], {storage: 'localStorage'});
+            })
+        })
+
+        describe('sessionStorage', function ()
+        {
+            it('should call the right method', function ()
+            {
+                var _key = "a";
+                var _info = "b";
+
+                spyOn(_xtorage, 'get').and.returnValue([]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.unshiftIntoSessionStorage(_key, _info);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, [_info], {storage: 'sessionStorage'});
+            })
+        })
+    })
+
+    describe('popFrom', function()
+    {
+        describe('localStorage', function()
+        {
+            it('should remove the last element correctly', function()
+            {
+                var _infoInStorage = [{a: 1}, "b", 1, true];
+                var _key = "k";
+                var _result = [{a: 1}, "b", 1];
+
+                _xtorage.saveInLocalStorage(_key, _infoInStorage, {storage: 'localStorage'});
+
+                _xtorage.popFrom(_key, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            it('should remove the last element correctly', function()
+            {
+                var _infoInStorage = [{a: 1}, "b", 1, true];
+                var _key = "k";
+                var _result = [{a: 1}, "b", 1];
+
+                _xtorage.saveInSessionStorage(_key, _infoInStorage, {storage: 'sessionStorage'});
+
+                _xtorage.popFrom(_key, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+        })
+    })
+
+    describe('shiftFrom', function()
+    {
+        describe('localStorage', function()
+        {
+            it('should remove the last element correctly', function()
+            {
+                var _infoInStorage = [{a: 1}, "b", 1, true];
+                var _key = "k";
+                var _result = ["b", 1, true];
+
+                _xtorage.saveInLocalStorage(_key, _infoInStorage, {storage: 'localStorage'});
+
+                _xtorage.shiftFrom(_key, {storage: 'localStorage'});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            it('should remove the last element correctly', function()
+            {
+                var _infoInStorage = [{a: 1}, "b", 1, true];
+                var _key = "k";
+                var _result = ["b", 1, true];
+
+                _xtorage.saveInSessionStorage(_key, _infoInStorage, {storage: 'sessionStorage'});
+
+                _xtorage.shiftFrom(_key, {storage: 'sessionStorage'});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+        })
+    })
+
+    describe('popFromProxies', function()
+    {
+        describe('localStorage', function ()
+        {
+            it('should call the right method', function()
+            {
+                var _key = "a";
+
+                spyOn(_xtorage, 'get').and.returnValue([1, "b"]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.popFromLocalStorage(_key);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, [1], {storage: 'localStorage'});
+            })
+        })
+
+        describe('sessionStorage', function ()
+        {
+            it('should call the right method', function ()
+            {
+                var _key = "a";
+
+                spyOn(_xtorage, 'get').and.returnValue([1, "b"]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.popFromSessionStorage(_key);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, [1], {storage: 'sessionStorage'});
+            })
+        })
+    })
+
+    describe('shiftFromProxies', function()
+    {
+        describe('localStorage', function ()
+        {
+            it('should call the right method', function()
+            {
+                var _key = "a";
+
+                spyOn(_xtorage, 'get').and.returnValue([1, "b"]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.shiftFromLocalStorage(_key);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, ["b"], {storage: 'localStorage'});
+            })
+        })
+
+        describe('sessionStorage', function ()
+        {
+            it('should call the right method', function ()
+            {
+                var _key = "a";
+
+                spyOn(_xtorage, 'get').and.returnValue([{a: 1}, "b"]);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.shiftFromSessionStorage(_key);
+
+                expect(_xtorage.get).toHaveBeenCalled();
+                expect(_xtorage.save).toHaveBeenCalledWith(_key, ["b"], {storage: 'sessionStorage'});
+            })
+        })
+    })
 })

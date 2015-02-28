@@ -68,6 +68,28 @@
                                       : $window[storage].setItem(key, info);
                 }
 
+                var _addInto = function(key, info, options, method)
+                {
+                    var _storage = _getStorageType(options);
+
+                    var _infoFromStorage = this.get(key, {storage: _storage});
+
+                    _infoFromStorage[method](info);
+
+                    this.save(key, _infoFromStorage, {storage: _storage});
+                }
+
+                var _removeFrom = function(key, options, method)
+                {
+                    var _storage = _getStorageType(options);
+
+                    var _infoFromStorage = this.get(key, {storage: _storage});
+
+                    _infoFromStorage[method]();
+
+                    this.save(key, _infoFromStorage, {storage: _storage});
+                }
+
                 var _saveInStorage = function (key, info, options)
                 {
                     var _storage = _getStorageType(options);
@@ -84,6 +106,26 @@
                         _save(key, info, _storage);
                     }
                 };
+
+                var _pushInto = function(key, info, options)
+                {
+                    _addInto.call(this, key, info, options, "push");
+                }
+
+                var _unshiftInto = function(key, info, options)
+                {
+                    _addInto.call(this, key, info, options, "unshift");
+                }
+
+                var _popFrom = function(key, options)
+                {
+                    _removeFrom.call(this, key, options, "pop");
+                }
+
+                var _shiftFrom = function(key, options)
+                {
+                    _removeFrom.call(this, key, options, "shift");
+                }
 
                 var _getFromStorage = function (key, options) {
                     var _storage = _getStorageType(options);
@@ -153,6 +195,26 @@
                     this.save(key, info, LOCAL_STORAGE_OBJECT);
                 }
 
+                var _pushIntoSessionStorageProxy = function(key, info)
+                {
+                    _pushInto.call(this, key, info, SESSION_STORAGE_OBJECT);
+                }
+
+                var _pushIntoLocalStorageProxy = function(key, info)
+                {
+                    _pushInto.call(this, key, info, LOCAL_STORAGE_OBJECT);
+                }
+
+                var _unshiftIntoSessionStorageProxy = function(key, info)
+                {
+                    _unshiftInto.call(this, key, info, SESSION_STORAGE_OBJECT);
+                }
+
+                var _unshiftIntoLocalStorageProxy = function(key, info)
+                {
+                    _unshiftInto.call(this, key, info, LOCAL_STORAGE_OBJECT);
+                }
+
                 var _removeFromSessionStorageProxy = function(key)
                 {
                     this.remove(key, SESSION_STORAGE_OBJECT);
@@ -173,6 +235,25 @@
                     this.clear(key, LOCAL_STORAGE_OBJECT);
                 }
 
+                var _popFromLocalStorageProxy = function(key)
+                {
+                    this.popFrom(key, LOCAL_STORAGE_OBJECT);
+                }
+
+                var _popFromSessionStorageProxy = function(key)
+                {
+                    this.popFrom(key, SESSION_STORAGE_OBJECT);
+                }
+
+                var _shiftFromLocalStorageProxy = function(key)
+                {
+                    this.shiftFrom(key, LOCAL_STORAGE_OBJECT);
+                }
+
+                var _shiftFromSessionStorageProxy = function(key)
+                {
+                    this.shiftFrom(key, SESSION_STORAGE_OBJECT);
+                }
 
                 /*          API          */
 
@@ -182,14 +263,38 @@
                     remove: _removeFromStorage,
                     clear: _clearStorage,
 
+
+
+                    pushInto: _pushInto,
+                    unshiftInto: _unshiftInto,
+
+
+
+                    popFrom: _popFrom,
+                    shiftFrom: _shiftFrom,
+
+
+
                     getFromSessionStorage: _getFromSessionStorageProxy,
                     getFromLocalStorage: _getFromLocalStorageProxy,
 
                     saveInSessionStorage: _saveInSessionStorageProxy,
                     saveInLocalStorage: _saveInLocalStorageProxy,
 
+                    pushIntoSessionStorage: _pushIntoSessionStorageProxy,
+                    pushIntoLocalStorage: _pushIntoLocalStorageProxy,
+
+                    unshiftIntoSessionStorage: _unshiftIntoSessionStorageProxy,
+                    unshiftIntoLocalStorage: _unshiftIntoLocalStorageProxy,
+
                     removeFromSessionStorage: _removeFromSessionStorageProxy,
                     removeFromLocalStorage: _removeFromLocalStorageProxy,
+
+                    popFromSessionStorage: _popFromSessionStorageProxy,
+                    popFromLocalStorage: _popFromLocalStorageProxy,
+
+                    shiftFromSessionStorage: _shiftFromSessionStorageProxy,
+                    shiftFromLocalStorage: _shiftFromLocalStorageProxy,
 
                     clearSessionStorage: _clearSessionStorageProxy,
                     clearLocalStorage: _clearLocalStorageProxy

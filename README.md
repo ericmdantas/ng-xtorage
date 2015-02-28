@@ -28,15 +28,19 @@ Stringify this, parse that.. loop through this.. enough is enough.
 
 The main service ```$xtorage``` exposes:
 
-Four simple methods:
+Eight simple methods:
 
 - get;
 - save;
+- pushInto;
+- unshiftInto;
 - remove;
-- clear.
+- clear;
+- popFrom;
+- shiftFrom;
 
 
-Eight proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` with the {storage: nameOfTheMethodHere}):
+Sixteen proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` with the {storage: nameOfTheMethodHere}):
 
 - getFromSessionStorage;
 - getFromLocalStorage;
@@ -44,8 +48,20 @@ Eight proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` wit
 - saveInSessionStorage;
 - saveInLocalStorage;
 
+- pushIntoSessionStorage;
+- pushIntoLocalStorage;
+
+- unshiftIntoSessionStorage;
+- unshiftIntoLocalStorage;
+
 - removeFromSessionStorage;
 - removeFromLocalStorage;
+
+- shiftFromSessionStorage;
+- shiftFromLocalStorage;
+
+- popFromSessionStorage;
+- popFromLocalStorage;
 
 - clearSessionStorage;
 - clearLocalStorage;
@@ -110,6 +126,72 @@ And one configurable property (provider):
         console.log(_fromSession); // displays the object saved previously, not a string
       }]);
   ```    
+
+
+## $xtorage.pushInto(key, infoToBePushededIntoTheArray, options)
+
+
+### where:
+
+- ```key``` is a **String**
+- ```infoToBePushededIntoTheArray``` can be **any type**
+- ```options``` is an optional object **Object: storage**
+
+#### usage:
+
+  ```javascript
+  angular
+      .module("testeApp", ["emd.ng-xtorage"])
+      .run(["$xtorage", function($xtorage)
+      {
+        $xtorage.save("someKeyHere", [1]); // save in localStorage
+        $xtorage.save("someOtherKeyHere", [2], {storage: "sessionStorage"}); // saves in sessionStorage
+
+        var _fromLocal = $xtorage.get("someKeyHere"); // [1]
+        var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // [2]
+
+        $xtorage.pushInto("someKeyHere", "a"); // now you have ["a"] in the LocalStorage, with the key 'someKeyHere'
+        $xtorage.pushInto("someKeyHere", "b", {storage: 'sessionStorage'); // now you have ["b"] in the SessionStorage, with the key 'someKeyHere'
+
+        var _fromLocal2 = $xtorage.get("someKeyHere"); // [1, "a"]
+        var _fromSession2 = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // [2, "b"]
+      }]);
+  ```
+
+
+
+
+
+
+## $xtorage.unshiftInto(key, infoToBeUnshiftedIntoTheArray, options)
+
+
+### where:
+
+- ```key``` is a **String**
+- ```infoToBeUnshiftedIntoTheArray``` can be **any type**
+- ```options``` is an optional object **Object: storage**
+
+#### usage:
+
+  ```javascript
+  angular
+      .module("testeApp", ["emd.ng-xtorage"])
+      .run(["$xtorage", function($xtorage)
+      {
+        $xtorage.save("someKeyHere", [1]); // save in localStorage
+        $xtorage.save("someOtherKeyHere", [2], {storage: "sessionStorage"}); // saves in sessionStorage
+
+        var _fromLocal = $xtorage.get("someKeyHere"); // [1]
+        var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // [2]
+
+        $xtorage.unshiftInto("someKeyHere", "a"); // now you have ["a"] in the LocalStorage, with the key 'someKeyHere'
+        $xtorage.unshiftInto("someKeyHere", "b", {storage: 'sessionStorage'); // now you have ["b"] in the SessionStorage, with the key 'someKeyHere'
+
+        var _fromLocal2 = $xtorage.get("someKeyHere"); // ["a", 1]
+        var _fromSession2 = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // ["b", 2]
+      }]);
+  ```
 
 
 
