@@ -3,7 +3,6 @@
 describe('ng-xtorage', function()
 {
     var _xtorage, _windowMock, _xtorageProvider, _timeoutMock;
-    var MAX_FLUSH = 1000;
 
     beforeEach(module('emd.ng-xtorage', function($xtorageProvider)
     {
@@ -40,6 +39,7 @@ describe('ng-xtorage', function()
         {
             expect(_xtorageProvider).toBeDefined();
             expect(_xtorageProvider.storage).toEqual('localStorage');
+            expect(_xtorageProvider.unique).toBe(false);
         })
     })
 
@@ -1029,7 +1029,49 @@ describe('ng-xtorage', function()
 
                 _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
 
-                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage'});
+                _xtorage.pushInto(_key, _newInfo);
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - array - nothing repeated', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage', unique: true});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should NOT push info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage', unique: true});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", [{a: {b: 42}}], _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'localStorage', unique: false});
 
                 expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
             })
@@ -1099,7 +1141,49 @@ describe('ng-xtorage', function()
 
                 _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
 
-                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage'});
+                _xtorage.pushIntoSessionStorage(_key, _newInfo);
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - array - nothing repeated', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage', unique: true});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should NOT push info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage', unique: true});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should push info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", [{a: {b: 42}}], _newInfo];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.pushInto(_key, _newInfo, {storage: 'sessionStorage', unique: false});
 
                 expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
             })
@@ -1110,7 +1194,7 @@ describe('ng-xtorage', function()
     {
         describe('localStorage', function()
         {
-            it('should push info into the array nothing in the storage', function()
+            it('should unshift info into the array nothing in the storage', function()
             {
                 var _newInfo = "b";
                 var _result = ["b"];
@@ -1172,7 +1256,49 @@ describe('ng-xtorage', function()
 
                 _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
 
-                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage'});
+                _xtorage.unshiftInto(_key, _newInfo);
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - array - nothing repeated', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage', unique: true});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should NOT unshift info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage', unique: true});
+
+                expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [_newInfo, {a:1}, true, "a", [{a: {b: 42}}]];
+                var _key = "k";
+
+                _xtorage.saveInLocalStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'localStorage', unique: false});
 
                 expect(_xtorage.getFromLocalStorage(_key)).toEqual(_result);
             })
@@ -1242,7 +1368,49 @@ describe('ng-xtorage', function()
 
                 _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
 
-                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage'});
+                _xtorage.unshiftIntoSessionStorage(_key, _newInfo);
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - array - nothing repeated', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a"];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [_newInfo, {a:1}, true, "a"];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage', unique: true});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should NOT unshift info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage', unique: true});
+
+                expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
+            })
+
+            it('should unshift info into the array - repeated value', function()
+            {
+                var _infoAlreadyInTheStorage = [{a:1}, true, "a", [{a: {b: 42}}]];
+                var _newInfo = [{a: {b: 42}}];
+                var _result = [_newInfo, {a:1}, true, "a", [{a: {b: 42}}]];
+                var _key = "k";
+
+                _xtorage.saveInSessionStorage(_key, _infoAlreadyInTheStorage);
+
+                _xtorage.unshiftInto(_key, _newInfo, {storage: 'sessionStorage', unique: false});
 
                 expect(_xtorage.getFromSessionStorage(_key)).toEqual(_result);
             })

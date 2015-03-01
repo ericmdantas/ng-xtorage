@@ -67,9 +67,10 @@ Sixteen proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` w
 - clearLocalStorage;
 
 
-And one configurable property (provider):
+And two configurable properties (provider):
 
 - storage; ```defaults to 'localStorage', can be changed in config time to 'sessionStorage'```
+- unique; ```defaults to false, can be changed in config time to true```
 
 
 ## $xtorage.get(key, options)
@@ -135,7 +136,7 @@ And one configurable property (provider):
 
 - ```key``` is a **String**
 - ```infoToBePushededIntoTheArray``` can be **any type**
-- ```options``` is an optional object **Object: storage**
+- ```options``` is an optional object **Object: storage, unique**
 
 #### usage:
 
@@ -152,6 +153,7 @@ And one configurable property (provider):
 
         $xtorage.pushInto("someKeyHere", "a"); // now you have ["a"] in the LocalStorage, with the key 'someKeyHere'
         $xtorage.pushInto("someKeyHere", "b", {storage: 'sessionStorage'); // now you have ["b"] in the SessionStorage, with the key 'someKeyHere'
+        $xtorage.pushInto("someKeyHere", "b", {storage: 'sessionStorage', unique: true); // nothing will happen, since "b" already exists in the array
 
         var _fromLocal2 = $xtorage.get("someKeyHere"); // [1, "a"]
         var _fromSession2 = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // [2, "b"]
@@ -170,7 +172,7 @@ And one configurable property (provider):
 
 - ```key``` is a **String**
 - ```infoToBeUnshiftedIntoTheArray``` can be **any type**
-- ```options``` is an optional object **Object: storage**
+- ```options``` is an optional object **Object: storage, unique**
 
 #### usage:
 
@@ -187,6 +189,7 @@ And one configurable property (provider):
 
         $xtorage.unshiftInto("someKeyHere", "a"); // now you have ["a"] in the LocalStorage, with the key 'someKeyHere'
         $xtorage.unshiftInto("someKeyHere", "b", {storage: 'sessionStorage'); // now you have ["b"] in the SessionStorage, with the key 'someKeyHere'
+        $xtorage.unshiftInto("someKeyHere", "b", {storage: 'sessionStorage', unique: true); // nothing will happen, since "b" already exists in the array
 
         var _fromLocal2 = $xtorage.get("someKeyHere"); // ["a", 1]
         var _fromSession2 = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // ["b", 2]

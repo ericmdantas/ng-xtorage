@@ -15,10 +15,12 @@
             var LOCAL_STORAGE_OBJECT = {storage: LOCAL_STORAGE};
 
             self.storage = LOCAL_STORAGE;
+            self.unique = false;
 
             this.$get = ['$window', function($window)
             {
                 var DEFAULT_STORAGE = self.storage;
+                var DEFAULT_UNIQUE = self.unique;
 
                 var _tryParseToObject = function (str, isNumber)
                 {
@@ -56,10 +58,17 @@
                     return ng.isArray(arr) && arr.length;
                 }
 
-                var _getStorageType = function (options) {
+                var _extractStorageType = function (options) {
                     var _options = ng.isObject(options) ? options : {};
 
                     return _options.storage || DEFAULT_STORAGE;
+                };
+
+                var _extractUnique = function(options)
+                {
+                    var _options = ng.isObject(options) ? options : {};
+
+                    return _options.unique || DEFAULT_UNIQUE;
                 };
 
                 var _save = function(key, info, storage)
@@ -68,20 +77,42 @@
                                       : $window[storage].setItem(key, info);
                 }
 
+                var _isUnique = function(array, info)
+                {
+                    for (var i = 0; i < array.length; i++)
+                    {
+                        if (ng.equals(array[i], info))
+                            return false;
+                    }
+
+                    return true;
+                }
+
+                var _addIntoHelper = function(key, array, info, method, storage)
+                {
+                    array[method](info);
+                    this.save(key, array, {storage: storage});
+                }
+
                 var _addInto = function(key, info, options, method)
                 {
-                    var _storage = _getStorageType(options);
+                    var _storage = _extractStorageType(options);
+                    var _uniqueOpt = _extractUnique(options);
 
                     var _infoFromStorage = this.get(key, {storage: _storage}) || [];
 
-                    _infoFromStorage[method](info);
-
-                    this.save(key, _infoFromStorage, {storage: _storage});
+                    if (_uniqueOpt)
+                    {
+                        if (_isUnique(_infoFromStorage, info))
+                            _addIntoHelper.call(this, key, _infoFromStorage, info, method, _storage);
+                    }
+                    else
+                        _addIntoHelper.call(this, key, _infoFromStorage, info, method, _storage);
                 }
 
                 var _removeFrom = function(key, options, method)
                 {
-                    var _storage = _getStorageType(options);
+                    var _storage = _extractStorageType(options);
 
                     var _infoFromStorage = this.get(key, {storage: _storage});
 
@@ -92,7 +123,7 @@
 
                 var _saveInStorage = function (key, info, options)
                 {
-                    var _storage = _getStorageType(options);
+                    var _storage = _extractStorageType(options);
 
                     if (_isArrayFilled(key))
                     {
@@ -128,7 +159,7 @@
                 }
 
                 var _getFromStorage = function (key, options) {
-                    var _storage = _getStorageType(options);
+                    var _storage = _extractStorageType(options);
                     var _fromStorage = $window[_storage].getItem(key);
                     var _info = [];
 
@@ -153,7 +184,7 @@
 
                 var _removeFromStorage = function (key, options)
                 {
-                    var _storage = _getStorageType(options);
+                    var _storage = _extractStorageType(options);
 
                     if (_isArrayFilled(key))
                     {
@@ -166,7 +197,7 @@
 
                 var _clearStorage = function (options)
                 {
-                    var _storage = _getStorageType(options);
+                    var _storage = _extractStorageType(options);
 
                     $window[_storage].clear();
                 };
