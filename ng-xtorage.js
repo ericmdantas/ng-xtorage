@@ -36,7 +36,7 @@
                     }
 
                     return _info;
-                }
+                };
 
                 var _isItANumber = function (str)
                 {
@@ -52,11 +52,11 @@
                     }
 
                     return true;
-                }
+                };
 
                 var _isArrayFilled = function (arr) {
                     return ng.isArray(arr) && arr.length;
-                }
+                };
 
                 var _extractStorageType = function (options) {
                     var _options = ng.isObject(options) ? options : {};
@@ -75,7 +75,7 @@
                 {
                     ng.isObject(info) ? $window[storage].setItem(key, ng.toJson(info))
                                       : $window[storage].setItem(key, info);
-                }
+                };
 
                 var _isUnique = function(array, info)
                 {
@@ -86,13 +86,13 @@
                     }
 
                     return true;
-                }
+                };
 
                 var _addIntoHelper = function(key, array, info, method, storage)
                 {
                     array[method](info);
                     this.save(key, array, {storage: storage});
-                }
+                };
 
                 var _addInto = function(key, info, options, method)
                 {
@@ -104,11 +104,15 @@
                     if (_uniqueOpt)
                     {
                         if (_isUnique(_infoFromStorage, info))
+                        {
                             _addIntoHelper.call(this, key, _infoFromStorage, info, method, _storage);
+                        }
                     }
                     else
+                    {
                         _addIntoHelper.call(this, key, _infoFromStorage, info, method, _storage);
-                }
+                    };
+                };
 
                 var _removeFrom = function(key, options, method)
                 {
@@ -119,7 +123,7 @@
                     _infoFromStorage[method]();
 
                     this.save(key, _infoFromStorage, {storage: _storage});
-                }
+                };
 
                 var _saveInStorage = function (key, info, options)
                 {
@@ -141,22 +145,22 @@
                 var _pushInto = function(key, info, options)
                 {
                     _addInto.call(this, key, info, options, "push");
-                }
+                };
 
                 var _unshiftInto = function(key, info, options)
                 {
                     _addInto.call(this, key, info, options, "unshift");
-                }
+                };
 
                 var _popFrom = function(key, options)
                 {
                     _removeFrom.call(this, key, options, "pop");
-                }
+                };
 
                 var _shiftFrom = function(key, options)
                 {
                     _removeFrom.call(this, key, options, "shift");
-                }
+                };
 
                 var _getFromStorage = function (key, options) {
                     var _storage = _extractStorageType(options);
@@ -170,14 +174,20 @@
                             var _arrayFromStorage = $window[_storage].getItem(key[i]);
 
                             if (_arrayFromStorage) // only push the info from the storage if it's defined
+                            {
                                 _info.push(_tryParseToObject(_arrayFromStorage));
+                            }
                         }
 
                         if (!_isArrayFilled(_info))
+                        {
                             _info = null;
+                        }
                     }
                     else
+                    {
                         _info = _tryParseToObject(_fromStorage, _isItANumber(_fromStorage));
+                    }
 
                     return _info;
                 };
@@ -209,82 +219,82 @@
                 var _getFromSessionStorageProxy = function(key)
                 {
                     return this.get(key, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 var _getFromLocalStorageProxy = function(key)
                 {
                     return this.get(key, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _saveInSessionStorageProxy = function(key, info)
                 {
                     this.save(key, info, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 var _saveInLocalStorageProxy = function(key, info)
                 {
                     this.save(key, info, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _pushIntoSessionStorageProxy = function(key, info)
                 {
                     _pushInto.call(this, key, info, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 var _pushIntoLocalStorageProxy = function(key, info)
                 {
                     _pushInto.call(this, key, info, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _unshiftIntoSessionStorageProxy = function(key, info)
                 {
                     _unshiftInto.call(this, key, info, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 var _unshiftIntoLocalStorageProxy = function(key, info)
                 {
                     _unshiftInto.call(this, key, info, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _removeFromSessionStorageProxy = function(key)
                 {
                     this.remove(key, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 var _removeFromLocalStorageProxy = function(key)
                 {
                     this.remove(key, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _clearSessionStorageProxy = function(key)
                 {
                     this.clear(key, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 var _clearLocalStorageProxy = function(key)
                 {
                     this.clear(key, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _popFromLocalStorageProxy = function(key)
                 {
                     this.popFrom(key, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _popFromSessionStorageProxy = function(key)
                 {
                     this.popFrom(key, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 var _shiftFromLocalStorageProxy = function(key)
                 {
                     this.shiftFrom(key, LOCAL_STORAGE_OBJECT);
-                }
+                };
 
                 var _shiftFromSessionStorageProxy = function(key)
                 {
                     this.shiftFrom(key, SESSION_STORAGE_OBJECT);
-                }
+                };
 
                 /*          API          */
 
@@ -332,4 +342,4 @@
                 };
             }];
         });
-}(angular))
+}(angular));
