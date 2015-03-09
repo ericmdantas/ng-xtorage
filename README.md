@@ -238,13 +238,12 @@ And two configurable properties (provider):
 
 
 
-## $xtorage.clear(key, options)
+## $xtorage.clear(options)
 
 
 ### where:
 
 
-- ```key``` is a **String**
 - ```options``` is an optional **Object: storage**
 
 
