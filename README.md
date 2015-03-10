@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/ericmdantas/ng-xtorage.svg?branch=master)](https://travis-ci.org/ericmdantas/ng-xtorage)
 [![Coverage Status](https://coveralls.io/repos/ericmdantas/ng-xtorage/badge.svg?branch=master)](https://coveralls.io/r/ericmdantas/ng-xtorage?branch=master)
 
+
 Web Storage made simple and more powerful (sessionStorage & localStorage).
 
 
@@ -237,13 +238,12 @@ And two configurable properties (provider):
 
 
 
-## $xtorage.clear(key, options)
+## $xtorage.clear(options)
 
 
 ### where:
 
 
-- ```key``` is a **String**
 - ```options``` is an optional **Object: storage**
 
 
