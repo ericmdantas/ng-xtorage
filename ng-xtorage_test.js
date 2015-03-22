@@ -1417,9 +1417,70 @@ describe('ng-xtorage', function()
         })
     })
 
+    describe('removeFromArray', function()
+    {
+        describe('localStorage', function()
+        {
+            it('should remove from the first position of the array', function()
+            {
+                var _wasInStorage = [1, 2, 3];
+                var _goesToStorage = [2, 3];
+
+                spyOn(_xtorage, 'get').and.returnValue(_wasInStorage);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.removeFromArray('a', 0, {storage: 'localStorage'});
+
+                expect(_xtorage.save).toHaveBeenCalledWith('a', _goesToStorage, {storage: 'localStorage'});
+            })
+
+            it('should remove from the second position of the array', function()
+            {
+                var _wasInStorage = [1, 2, 3];
+                var _goesToStorage = [1, 3];
+
+                spyOn(_xtorage, 'get').and.returnValue(_wasInStorage);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.removeFromArray('a', 1, {storage: 'localStorage'});
+
+                expect(_xtorage.save).toHaveBeenCalledWith('a', _goesToStorage, {storage: 'localStorage'});
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            it('should remove from the first position of the array', function()
+            {
+                var _wasInStorage = [1, 2, 3];
+                var _goesToStorage = [2, 3];
+
+                spyOn(_xtorage, 'get').and.returnValue(_wasInStorage);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.removeFromArray('a', 0, {storage: 'sessionStorage'});
+
+                expect(_xtorage.save).toHaveBeenCalledWith('a', _goesToStorage, {storage: 'sessionStorage'});
+            })
+
+            it('should remove from the second position of the array', function()
+            {
+                var _wasInStorage = [1, 2, 3];
+                var _goesToStorage = [1, 3];
+
+                spyOn(_xtorage, 'get').and.returnValue(_wasInStorage);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.removeFromArray('a', 1, {storage: 'sessionStorage'});
+
+                expect(_xtorage.save).toHaveBeenCalledWith('a', _goesToStorage, {storage: 'sessionStorage'});
+            })
+        })
+    })
+
     describe('pushIntoProxies', function()
     {
-        describe('localStorage', function ()
+        describe('localStorage', function()
         {
             it('should call the right method', function()
             {
@@ -1436,9 +1497,9 @@ describe('ng-xtorage', function()
             })
         })
 
-        describe('sessionStorage', function ()
+        describe('sessionStorage', function()
         {
-            it('should call the right method', function ()
+            it('should call the right method', function()
             {
                 var _key = "a";
                 var _info = "b";
@@ -1456,7 +1517,7 @@ describe('ng-xtorage', function()
 
     describe('unshiftIntoProxies', function()
     {
-        describe('localStorage', function ()
+        describe('localStorage', function()
         {
             it('should call the right method', function()
             {
@@ -1473,9 +1534,9 @@ describe('ng-xtorage', function()
             })
         })
 
-        describe('sessionStorage', function ()
+        describe('sessionStorage', function()
         {
-            it('should call the right method', function ()
+            it('should call the right method', function()
             {
                 var _key = "a";
                 var _info = "b";
@@ -1563,7 +1624,7 @@ describe('ng-xtorage', function()
 
     describe('popFromProxies', function()
     {
-        describe('localStorage', function ()
+        describe('localStorage', function()
         {
             it('should call the right method', function()
             {
@@ -1579,9 +1640,9 @@ describe('ng-xtorage', function()
             })
         })
 
-        describe('sessionStorage', function ()
+        describe('sessionStorage', function()
         {
-            it('should call the right method', function ()
+            it('should call the right method', function()
             {
                 var _key = "a";
 
@@ -1598,7 +1659,7 @@ describe('ng-xtorage', function()
 
     describe('shiftFromProxies', function()
     {
-        describe('localStorage', function ()
+        describe('localStorage', function()
         {
             it('should call the right method', function()
             {
@@ -1614,9 +1675,9 @@ describe('ng-xtorage', function()
             })
         })
 
-        describe('sessionStorage', function ()
+        describe('sessionStorage', function()
         {
-            it('should call the right method', function ()
+            it('should call the right method', function()
             {
                 var _key = "a";
 
@@ -1627,6 +1688,39 @@ describe('ng-xtorage', function()
 
                 expect(_xtorage.get).toHaveBeenCalled();
                 expect(_xtorage.save).toHaveBeenCalledWith(_key, ["b"], {storage: 'sessionStorage'});
+            })
+        })
+    })
+
+    describe('removeFromArrayProxies', function()
+    {
+        describe('localStorage', function()
+        {
+            it('should call the right method', function()
+            {
+                var _key = "a";
+                var _index = 1;
+
+                spyOn(_xtorage, 'removeFromArray').and.callFake(angular.noop);
+
+                _xtorage.removeFromArrayLocalStorage(_key, _index);
+
+                expect(_xtorage.removeFromArray).toHaveBeenCalledWith(_key, _index, {storage: 'localStorage'});
+            })
+        })
+
+        describe('sessionStorage', function()
+        {
+            it('should call the right method', function()
+            {
+                var _key = "a";
+                var _index = 1;
+
+                spyOn(_xtorage, 'removeFromArray').and.callFake(angular.noop);
+
+                _xtorage.removeFromArraySessionStorage(_key, _index);
+
+                expect(_xtorage.removeFromArray).toHaveBeenCalledWith(_key, _index, {storage: 'sessionStorage'});
             })
         })
     })

@@ -88,13 +88,13 @@
                     return true;
                 };
 
-                var _addIntoHelper = function(key, array, info, method, storage)
+                var _addIntoHelper = function(key, array, info, method, storage) // used for arrays only (push / unshift)
                 {
                     array[method](info);
                     this.save(key, array, {storage: storage});
                 };
 
-                var _addInto = function(key, info, options, method)
+                var _addInto = function(key, info, options, method) // used for arrays only (push / unshift)
                 {
                     var _storage = _extractStorageType(options);
                     var _uniqueOpt = _extractUnique(options);
@@ -114,7 +114,7 @@
                     };
                 };
 
-                var _removeFrom = function(key, options, method)
+                var _removeFrom = function(key, options, method) // used for arrays only (pop / shift)
                 {
                     var _storage = _extractStorageType(options);
 
@@ -124,6 +124,17 @@
 
                     this.save(key, _infoFromStorage, {storage: _storage});
                 };
+
+                var _removeFromArray = function(key, index, options)
+                {
+                    var _storage = _extractStorageType(options);
+
+                    var _array = this.get(key, {storage: _storage});
+
+                    _array.splice(index, 1);
+
+                    this.save(key, _array, {storage: _storage});
+                }
 
                 var _saveInStorage = function (key, info, options)
                 {
@@ -266,6 +277,16 @@
                     this.remove(key, LOCAL_STORAGE_OBJECT);
                 };
 
+                var _removeFromArrayLocalStorageProxy = function(key, index)
+                {
+                    this.removeFromArray(key, index, LOCAL_STORAGE_OBJECT);
+                };
+
+                var _removeFromArraySessionStorageProxy = function(key, index)
+                {
+                    this.removeFromArray(key, index, SESSION_STORAGE_OBJECT);
+                };
+
                 var _clearSessionStorageProxy = function(key)
                 {
                     this.clear(key, SESSION_STORAGE_OBJECT);
@@ -313,6 +334,7 @@
 
                     popFrom: _popFrom,
                     shiftFrom: _shiftFrom,
+                    removeFromArray: _removeFromArray,
 
 
 
@@ -330,6 +352,9 @@
 
                     removeFromSessionStorage: _removeFromSessionStorageProxy,
                     removeFromLocalStorage: _removeFromLocalStorageProxy,
+
+                    removeFromArrayLocalStorage: _removeFromArrayLocalStorageProxy,
+                    removeFromArraySessionStorage: _removeFromArraySessionStorageProxy,
 
                     popFromSessionStorage: _popFromSessionStorageProxy,
                     popFromLocalStorage: _popFromLocalStorageProxy,
