@@ -1,7 +1,7 @@
 {
   "name": "ng-xtorage",
   "main": "ng-xtorage.js",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "homepage": "https://github.com/ericmdantas/ng-xtorage",
   "authors": [
     "ericmdantas <ericdantas0@hotmail.com>"
