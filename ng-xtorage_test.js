@@ -1421,6 +1421,19 @@ describe('ng-xtorage', function()
     {
         describe('localStorage', function()
         {
+            it('should not throw error, nothing in the storage - null', function()
+            {
+                var _wasInStorage = null;
+                var _goesToStorage = [];
+
+                spyOn(_xtorage, 'get').and.returnValue(_wasInStorage);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.removeFromArray('a', 0, {storage: 'localStorage'});
+
+                expect(_xtorage.save).toHaveBeenCalledWith('a', _goesToStorage, {storage: 'localStorage'});
+            })
+
             it('should remove from the first position of the array', function()
             {
                 var _wasInStorage = [1, 2, 3];
@@ -1450,6 +1463,19 @@ describe('ng-xtorage', function()
 
         describe('sessionStorage', function()
         {
+            it('should not throw error, nothing in the storage - null', function()
+            {
+                var _wasInStorage = null;
+                var _goesToStorage = [];
+
+                spyOn(_xtorage, 'get').and.returnValue(_wasInStorage);
+                spyOn(_xtorage, 'save').and.callFake(angular.noop);
+
+                _xtorage.removeFromArray('a', 0, {storage: 'sessionStorage'});
+
+                expect(_xtorage.save).toHaveBeenCalledWith('a', _goesToStorage, {storage: 'sessionStorage'});
+            })
+
             it('should remove from the first position of the array', function()
             {
                 var _wasInStorage = [1, 2, 3];

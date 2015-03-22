@@ -129,7 +129,7 @@
                 {
                     var _storage = _extractStorageType(options);
 
-                    var _array = this.get(key, {storage: _storage});
+                    var _array = this.get(key, {storage: _storage}) || [];
 
                     _array.splice(index, 1);
 
