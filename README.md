@@ -82,7 +82,9 @@ And two configurable properties (provider):
 - unique; ```defaults to false, can be changed in config time to true```
 
 
-## $xtorage.get(key, options)
+# API
+
+## ```$xtorage.get(key, options)```
 
 
 ### where:
@@ -108,7 +110,7 @@ And two configurable properties (provider):
   
   
 
-## $xtorage.save(key, infoToBeSaved, options)
+## ```$xtorage.save(key, infoToBeSaved, options)```
 
 
 ### where:
@@ -138,7 +140,7 @@ And two configurable properties (provider):
   ```    
 
 
-## $xtorage.pushInto(key, infoToBePushededIntoTheArray, options)
+## ```$xtorage.pushInto(key, infoToBePushededIntoTheArray, options)```
 
 
 ### where:
@@ -171,10 +173,7 @@ And two configurable properties (provider):
 
 
 
-
-
-
-## $xtorage.unshiftInto(key, infoToBeUnshiftedIntoTheArray, options)
+## ```$xtorage.unshiftInto(key, infoToBeUnshiftedIntoTheArray, options)```
 
 
 ### where:
@@ -207,7 +206,7 @@ And two configurable properties (provider):
 
 
 
-## $xtorage.remove(key, options)
+## ```$xtorage.remove(key, options)```
 
 
 ### where
@@ -245,7 +244,7 @@ And two configurable properties (provider):
   ```    
 
 
-## $xtorage.pop(key, options)
+## ```$xtorage.pop(key, options)```
 
 
 ### where
@@ -283,7 +282,7 @@ And two configurable properties (provider):
   ```    
 
 
-## $xtorage.shift(key, options)
+## ```$xtorage.shift(key, options)```
 
 
 ### where
@@ -321,7 +320,7 @@ And two configurable properties (provider):
   ```    
 
 
-## $xtorage.removeFromArray(key, index, options)
+## ```$xtorage.removeFromArray(key, index, options)```
 
 
 ### where
@@ -360,7 +359,7 @@ And two configurable properties (provider):
   ```    
 
 
-## $xtorage.clear(options)
+## ```$xtorage.clear(options)```
 
 
 ### where:
@@ -439,7 +438,7 @@ All the methods above will work when having arrays as parameters too.
 
 # form
 
-[Moved to its own module](https://github.com/ericmdantas/ng-xtorage-form)
+[Check ng-xtorage-form.](https://github.com/ericmdantas/ng-xtorage-form)
 
 
 # configurable
