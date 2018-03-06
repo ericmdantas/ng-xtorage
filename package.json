@@ -18,6 +18,7 @@
     "karma-phantomjs-launcher": "^0.1.4"
   },
   "scripts": {
+    "build": "gulp build",
     "test": "gulp unit_test",
     "test_ci": "gulp coverage"
   },
