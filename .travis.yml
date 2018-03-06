@@ -1,7 +1,10 @@
 language: node_js
 
 node_js:
-  - 0.12
+  - 9.x
+
+script:
+  - npm run test_ci
 
 before_script:
   - npm install -g gulp-cli bower

@@ -1,5 +1,3 @@
-"use strict";
-
 describe('ng-xtorage', function()
 {
     var _xtorage, _windowMock, _xtorageProvider, _timeoutMock;
@@ -111,6 +109,29 @@ describe('ng-xtorage', function()
                     expect(_xtorage.get(_key)).toBe(true);
                     expect(typeof _xtorage.get(_key)).toBe('boolean');
                 });
+
+                it('should retrieve the string starting with zero from the storage', function()
+                {
+                    var _key = 'a';
+                    var _info = "0010000241";
+
+                    _windowMock.localStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key)).toBe(_info);
+                    expect(typeof _xtorage.get(_key)).toBe('string');
+                });
+
+                it('should retrieve the string starting with ones and zeros from the storage - should use parseInt', function()
+                {
+                    var _key = 'a';
+                    var _info = "1000123456";
+                    var _infoParsed = 1000123456;
+
+                    _windowMock.localStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key)).toBe(_infoParsed);
+                    expect(typeof _xtorage.get(_key)).toBe('number');
+                });
             })
 
             describe('array', function()
@@ -202,6 +223,29 @@ describe('ng-xtorage', function()
                     expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toEqual(_info);
                     expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('number');
                 })
+
+                it('should retrieve the string starting with zero from the storage', function()
+                {
+                    var _key = 'a';
+                    var _info = "0010000241";
+
+                    _windowMock.sessionStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toBe(_info);
+                    expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('string');
+                });
+
+                it('should retrieve the string starting with ones and zeros from the storage - should use parseInt', function()
+                {
+                    var _key = 'a';
+                    var _info = "1000123456";
+                    var _infoParsed = 1000123456;
+
+                    _windowMock.sessionStorage.setItem(_key, _info);
+
+                    expect(_xtorage.get(_key, {storage: 'sessionStorage'})).toBe(_infoParsed);
+                    expect(typeof _xtorage.get(_key, {storage: 'sessionStorage'})).toBe('number');
+                });
             })
 
             describe('array', function()

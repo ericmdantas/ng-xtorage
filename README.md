@@ -62,7 +62,7 @@ Eighteen proxies (will wrap ```get```, ```save```, ```remove``` and ```clear``` 
 
 - removeFromSessionStorage;
 - removeFromLocalStorage;
- 
+
 - removeFromArraySessionStorage;
 - removeFromArraySessionStorage;
 
@@ -95,20 +95,20 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
       {
         var _fromLocal = $xtorage.get("someKeyHere"); // gets info from localStorage
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"}); // gets info from sessionStorage
-        
+
         console.log(_fromLocal); // whatever was held with that key in localStorage
         console.log(_fromSession); // whatever was held with that key in sessionStorage
       }]);
   ```    
-  
-  
+
+
 
 ## ```$xtorage.save(key, infoToBeSaved, options)```
 
@@ -121,19 +121,19 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
       {
         var _info = {infoGoesHere: 'somethingsomething', otherThing: {a: true}};
-      
+
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
 
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
       }]);
@@ -151,7 +151,7 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
@@ -184,7 +184,7 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
@@ -216,28 +216,28 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
       {
         var _info = {infoGoesHere: 'somethingsomething', otherThing: {a: true}};
-      
+
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
-        
+
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
-        
+
         $xtorage.remove("someKeyHere");
         $xtorage.remove("someOtherKeyHere", {storage: 'sessionStorage'});
-        
+
         var _localInfoAfterRemoval = $xtorage.get("someKeyHere");
         var _sessionInfoAfterRemoval = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_localInfoAfterRemoval); // null
         console.log(_sessionInfoAfterRemoval); // null
       }]);
@@ -254,28 +254,28 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
       {
         var _info = [{infoGoesHere: 'somethingsomething'}, true, {otherThing: {a: true}}];
-      
+
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
-        
+
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
-        
+
         $xtorage.pop("someKeyHere"); // removes the LAST item in the array and saves it back to the storage
         $xtorage.pop("someOtherKeyHere", {storage: 'sessionStorage'}); // removes the LAST item in the array and saves it back to the storage
-        
+
         var _localInfoAfterRemoval = $xtorage.get("someKeyHere");
         var _sessionInfoAfterRemoval = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_localInfoAfterRemoval); // [{infoGoesHere: 'somethingsomething'}, true}]
         console.log(_sessionInfoAfterRemoval); // [{infoGoesHere: 'somethingsomething'}, true}]
       }]);
@@ -292,28 +292,28 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
       {
         var _info = [{infoGoesHere: 'somethingsomething'}, true, {otherThing: {a: true}}];
-      
+
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
-        
+
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
-        
+
         $xtorage.shift("someKeyHere"); // removes the FIRST item in the array and saves it back to the storage
         $xtorage.shift("someOtherKeyHere", {storage: 'sessionStorage'}); // removes the FIRST item in the array and saves it back to the storage
-        
+
         var _localInfoAfterRemoval = $xtorage.get("someKeyHere");
         var _sessionInfoAfterRemoval = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_localInfoAfterRemoval); // [true, {otherThing: {a: true}}]
         console.log(_sessionInfoAfterRemoval); // [true, {otherThing: {a: true}}]
       }]);
@@ -331,28 +331,28 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
       {
         var _info = [{infoGoesHere: 'somethingsomething'}, true, {otherThing: {a: true}}];
-      
+
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
-        
+
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
-        
+
         $xtorage.removeFromArray("someKeyHere", 1); // removes the SECOND item in the array and saves it back to the storage
         $xtorage.removeFromArray("someOtherKeyHere", 0, {storage: 'sessionStorage'}); // removes the FIRST item in the array and saves it back to the storage
-        
+
         var _localInfoAfterRemoval = $xtorage.get("someKeyHere");
         var _sessionInfoAfterRemoval = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_localInfoAfterRemoval); // [{infoGoesHere: 'somethingsomething'}, {otherThing: {a: true}}]
         console.log(_sessionInfoAfterRemoval); // [true, {otherThing: {a: true}}]
       }]);
@@ -370,28 +370,28 @@ And two configurable properties (provider):
 
 #### usage:
 
-  ```javascript
+  ```js
   angular
       .module("testeApp", ["emd.ng-xtorage"])
       .run(["$xtorage", function($xtorage)
       {
         var _info = {infoGoesHere: 'somethingsomething', otherThing: {a: true}};
-      
+
         $xtorage.save("someKeyHere", _info); // save in localStorage
         $xtorage.save("someOtherKeyHere", _info, {storage: "sessionStorage"}); // saves in sessionStorage
-        
+
         var _fromLocal = $xtorage.get("someKeyHere");
         var _fromSession = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_fromLocal); // display the object saved previously, not a string
         console.log(_fromSession); // displays the object saved previously, not a string
-        
+
         $xtorage.clear(); // clears everything from the localStorage - no need for keys
-        $xtorage.clear({storage: 'sessionStorage'}); // clears everything from sessionStorage 
-        
+        $xtorage.clear({storage: 'sessionStorage'}); // clears everything from sessionStorage
+
         var _localInfoAfterRemoval = $xtorage.get("someKeyHere");
         var _sessionInfoAfterRemoval = $xtorage.get("someOtherKeyHere", {storage: "sessionStorage"});
-        
+
         console.log(_localInfoAfterRemoval); // null
         console.log(_sessionInfoAfterRemoval); // null
       }]);
@@ -403,35 +403,35 @@ All the methods above will work when having arrays as parameters too.
 
 ### saving
 
-  ```javascript
-  
+  ```js
+
     var _keys = ['key1', 'key2', 'key3'];
     var _info = [{hey: 'I\'m an object!'}, 'and I\'m a string :D', 42];
-  
+
     $xtorage.save(_keys, _info); // will save info in the localStorage
   ```
-  
+
 ### retrieving
 
-  ```javascript
-  
+  ```js
+
     var _keys = ['key1', 'key2', 'key3'];
-    
+
     var _info = $xtorage.get(_keys); // will get info from the localStorage
-    
+
     console.log(_info); // [{hey: 'I\'m an object!'}, 'and I\'m a string :D', 42]
   ```
-  
+
 ### removing
 
-  ```javascript
-  
+  ```js
+
     var _keys = ['key1', 'key2', 'key3'];
-    
+
     $xtorage.remove(_keys); // will remove info from the localStorage
-    
+
     var _info = $xtorage.get(_keys);
-    
+
     console.log(_info); // null
   ```
 
@@ -450,7 +450,7 @@ Defaults:
 
 Configuring:
 
-```javascript
+```js
 
   angular
     .module('myAwesomeModule', ['emd.ng-xtorage'])
@@ -475,7 +475,7 @@ Configuring:
 So, now to save in the localStorage you'll have the inform the options param:
 
 
-```javascript
+```js
 
   angular
     .module('myAwesomeModule', ['emd.ng-xtorage'])
@@ -497,6 +497,6 @@ So, now to save in the localStorage you'll have the inform the options param:
     }])
 ```
 
-#LICENSE
+# LICENSE
 
 MIT
