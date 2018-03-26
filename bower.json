@@ -32,13 +32,9 @@
     "*_test.js"
   ],
   "dependencies": {
-    "angular": "1.4.8",
-    "angular-mocks": "1.4.8"
+    "angular": "1.6.x"
   },
   "devDependencies": {
-    "angular-mocks": ">=1.0.8"
-  },
-  "resolutions": {
-    "angular": "1.4.8"
+    "angular-mocks": "1.6.x"
   }
 }
